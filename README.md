@@ -1,2 +1,2 @@
 # react-commons
-Cross application components
+Set of reusable components for reactjs applications
