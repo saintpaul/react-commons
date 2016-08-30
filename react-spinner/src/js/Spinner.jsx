@@ -10,14 +10,11 @@ const Spin              = require("spin.js");
  */
 class Spinner extends RefluxComponent {
 
-    constructor() {
-        super();
-
-        this.listenToAction(SpinnerActions.displaySpinner, this.display);
-        this.listenToAction(SpinnerActions.hideSpinner, this.hide);
+    constructor(props) {
+        super(props);
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         // Create spinner instance
         this.spinner = new Spin({
             lines: 11 // The number of lines to draw
@@ -41,24 +38,29 @@ class Spinner extends RefluxComponent {
             , hwaccel: false // Whether to use hardware acceleration
             , position: 'absolute' // Element positioning
         });
+
+        this.listenToAction(SpinnerActions.displaySpinner, this.display);
+        this.listenToAction(SpinnerActions.hideSpinner, this.hide);
     };
 
-    display = () => this.spinner.spin(this.refs.spinner);
+    display = () => this.spinner.spin(document.getElementById(this.props.id));
 
     hide = () => this.spinner.stop();
 
     render = () => {
-        return <div ref="spinner"></div>;
+        return <div id={this.props.id}></div>;
     };
 
 }
 
 Spinner.defaultProps = {
-    className           : "spinner"
+    className           : "spinner",
+    id                  : "spinner"
 };
 
 Spinner.propTypes = {
-    className           : React.PropTypes.string
+    className           : React.PropTypes.string,
+    id                  : React.PropTypes.string
 };
 
 // Expose Spinner actions
