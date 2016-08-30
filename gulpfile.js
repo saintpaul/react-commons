@@ -28,15 +28,15 @@ gulp.task('serve', function() {
 });
 
 gulp.task('html', function(){
-    gulp.src('./src/**/*.html')
+    gulp.src('./index.html')
         .pipe(gulp.dest('./build/'))
         .pipe(connect.reload());
 });
 
 gulp.task('watch', ['watchify'], function(cb) {
-    gulp.watch(['./src/js/**/*.js', './src/js/**/*.jsx'], ['lint-dev']);
-    gulp.watch(['./src/css/**/*.scss'], ['sass-dev']);
-    gulp.watch('./src/*.html', ['html']);
+    gulp.watch(['./react-reflux-component/src/js/**/*.js', './react-reflux-component/src/js/**/*.jsx'], ['lint-dev']);
+    gulp.watch(['./react-spinner/src/js/**/*.js', './react-spinner/src/js/**/*.jsx'], ['lint-dev']);
+    gulp.watch('./index.html', ['html']);
     cb();
 });
 

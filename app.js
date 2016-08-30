@@ -1,7 +1,7 @@
 const React = require('react');
 const ReactDom = require('react-dom');
 const Reflux = require('reflux');
-const RefluxComponent = require('./src/js/RefluxComponent');
+const { Spinner, RefluxComponent } = require('./index');
 
 var CharacterActions = {
     createCharacter: Reflux.createAction(),
@@ -22,7 +22,27 @@ var CharacterStore = Reflux.createStore({
 
 });
 
-class Demo extends RefluxComponent {
+class DemoSpinner extends RefluxComponent {
+
+    constructor(props) {
+        super(props);
+    }
+
+    displaySpinner = () => Spinner.Actions.displaySpinner();
+    hideSpinner = () => Spinner.Actions.hideSpinner();
+
+    render = () => (
+        <div>
+            <h1>Demo react-spinner</h1>
+            <Spinner/>
+            <button onClick={this.displaySpinner}>Display spinner</button>
+            <button onClick={this.hideSpinner}>Hide spinner</button>
+        </div>
+    );
+
+}
+
+class DemoRefluxComponent extends RefluxComponent {
 
     constructor(props) {
         super(props);
@@ -45,6 +65,7 @@ class Demo extends RefluxComponent {
 
     render = () => (
         <div>
+            <h1>Demo react-reflux-component</h1>
             <input type="text" value={this.state.character} onChange={this.onChangeCharacter}/>
             <br/>
             <br/>
@@ -52,6 +73,20 @@ class Demo extends RefluxComponent {
             <button onClick={this.fightCharacter}>Fight character !</button>
             { this.state.power ? `Attack character with ${this.state.power}` : null }
             { CharacterStore.characters.map( (c) => <div key={c}>{c}</div> ) }
+        </div>
+    );
+}
+
+class Demo extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render = () => (
+        <div>
+            <DemoRefluxComponent/>
+            <DemoSpinner/>
         </div>
     );
 }

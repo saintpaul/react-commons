@@ -1,10 +1,10 @@
 {
   "name": "react-commons",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "babel ./react-reflux-component/src -d ./lib/react-reflux-component"
+    "build": "babel ./react-reflux-component/src -d ./lib/react-reflux-component & babel ./react-spinner/src -d ./lib/react-spinner"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,8 @@
     "aggregation": "^0.9.7",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
-    "reflux": "^0.3.0"
+    "reflux": "^0.3.0",
+    "spin.js": "^2.3.2"
   },
   "devDependencies": {
     "babel": "^6.3.13",

@@ -6,7 +6,10 @@ var gulp                = require('gulp'),
     exitProcess         = require('./exitProcess');
 
 var lintTask = function(exit) {
-    return gulp.src(['./src/js/**/*.js', './src/js/**/*.jsx'])
+    return gulp.src([
+        './react-reflux-component/src/js/**/*.js', './react-reflux-component/src/js/**/*.jsx',
+        './react-spinner/src/js/**/*.js', './react-spinner/src/js/**/*.jsx'
+    ])
         .pipe(eslint(ESLintConfiguration))
         .pipe(eslint.format(friendlyFormatter))
         .pipe(eslint.failAfterError())
