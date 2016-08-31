@@ -2,6 +2,8 @@ const React             = require("react");
 const RefluxComponent   = require("../../../lib/react-reflux-component/js/RefluxComponent");
 const SpinnerActions    = require("./SpinnerActions");
 const Spin              = require("spin.js");
+const classnames        = require("classnames");
+
 
 /**
  * Display/Hide a Spinner.
@@ -10,8 +12,14 @@ const Spin              = require("spin.js");
  */
 class Spinner extends RefluxComponent {
 
+    initialState = () => ({
+        display: false,
+        isRequestTimeout: false
+    });
+
     constructor(props) {
         super(props);
+        this.state = this.initialState();
     }
 
     componentDidMount() {
@@ -41,26 +49,68 @@ class Spinner extends RefluxComponent {
 
         this.listenToAction(SpinnerActions.displaySpinner, this.display);
         this.listenToAction(SpinnerActions.hideSpinner, this.hide);
+    }
+
+    display = () => {
+        if(this.hideTimeout) clearTimeout(this.hideTimeout);
+
+        if(!this.state.display) {
+            this.spinner.spin(document.getElementById(this.props.id));
+            this.setState({display: true});
+
+            if(this.isTimeoutEnabled()) {
+                this.requestTimeout = setTimeout(() => this.setState({isRequestTimeout: true}), this.props.timeoutDelay * 1000);
+            }
+        }
     };
 
-    display = () => this.spinner.spin(document.getElementById(this.props.id));
+    hide = () => {
+        // Here we use a timeout to avoid flickering issue in case of several sequential http requests
+        this.hideTimeout = setTimeout( () => {
+                this.spinner.stop();
+                this.setState(this.initialState());
 
-    hide = () => this.spinner.stop();
-
-    render = () => {
-        return <div id={this.props.id}></div>;
+                if(this.isTimeoutEnabled()) {
+                    clearTimeout(this.requestTimeout);
+                }
+            }, 400);
     };
+
+    isTimeoutEnabled = () => this.props.timeoutDelay !== 0;
+
+    renderTimeout = () => (
+        <div className="timeout">
+            <div>{ this.props.timeoutTitle }</div>
+            <div>{ this.props.timeoutMessage }</div>
+            <div><button className={this.props.refreshButtonClass} onClick={() => window.location.reload()}>Refresh</button></div>
+        </div>
+    );
+
+    render = () => (
+        <div className={classnames({"spinner-container": this.state.display})}>
+            <div id={this.props.id}></div>
+            {this.state.isRequestTimeout ? this.renderTimeout() : null}
+        </div>
+    );
 
 }
 
 Spinner.defaultProps = {
     className           : "react-spinner",
-    id                  : "spinner"
+    id                  : "spinner",
+    timeoutTitle        : "It seems that we have a problem...",
+    timeoutMessage      : "Please check your connection or reload the page.",
+    timeoutDelay        : 15, // Display a warning message after X seconds. 0 = disabled
+    refreshButtonClass  : ""
 };
 
 Spinner.propTypes = {
     className           : React.PropTypes.string,
-    id                  : React.PropTypes.string
+    id                  : React.PropTypes.string,
+    timeoutTitle        : React.PropTypes.string,
+    timeoutMessage      : React.PropTypes.string,
+    timeoutDelay        : React.PropTypes.number,
+    refreshButtonClass  : React.PropTypes.string
 };
 
 // Expose Spinner actions

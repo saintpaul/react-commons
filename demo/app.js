@@ -34,7 +34,7 @@ class DemoSpinner extends RefluxComponent {
     render = () => (
         <div>
             <h1>Demo react-spinner</h1>
-            <Spinner/>
+            <Spinner timeoutDelay={3}/>
             <button onClick={this.displaySpinner}>Display spinner</button>
             <button onClick={this.hideSpinner}>Hide spinner</button>
         </div>

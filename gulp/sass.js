@@ -16,17 +16,16 @@ var connect      = require('gulp-connect'),
  *      Generate a .map file (for debugging purpose only)
  */
 var sassTask = function(exit, options) {
-    return gulp.src('./src/css/main.scss')
+    return gulp.src('./demo/main.scss')
         .pipe(gulpif(options.sourceMaps, sourcemaps.init()))
         .pipe(sass({
             outputStyle: gulpif(options.compress, "compressed", "nested"),
-            precision: 10,
-            includePaths: [global.bootstrapPath+'stylesheets/', global.fontawesomePath+'scss/', global.foundationPath+'scss/']
+            precision: 10
         }))
         .on('error', handleErrors)
         .on('error', exitProcess(exit))
         .pipe(gulpif(options.sourceMaps, sourcemaps.write('.')))
-        .pipe(gulp.dest('./build/css/'))
+        .pipe(gulp.dest('./demo/build/css/'))
         .pipe(connect.reload());
 };
 

@@ -19,7 +19,7 @@ var runBrowserifyTask = function (options) {
 
     var bundleMethod = browserify({
         // Specify the entry point of your app
-        entries: ['./app.js'],
+        entries: ['./demo/app.js'],
         extensions: ['.coffee', '.jsx'],
         global: true,
         debug: debug,
@@ -46,7 +46,7 @@ var runBrowserifyTask = function (options) {
             .pipe(source('app.js'))
             .pipe(gulpif(compress, streamify(uglify())))
             // Specify the output destination
-            .pipe(gulp.dest("build"))
+            .pipe(gulp.dest("./demo/build"))
             // Refresh browser(s)
             //.pipe(browserSync.reload({stream:true}))
             .pipe(connect.reload())
