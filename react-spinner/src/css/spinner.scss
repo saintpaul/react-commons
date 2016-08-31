@@ -1,8 +1,8 @@
 // Default CSS for spinner can be found in spin.js library
-$spinner-bg-color: rgba(255, 255, 255, 0.4);
-$spinner-timeout-bg-color: rgba(230, 230, 230, 0.85);
-$spinner-top: 0;
-$spinner-bottom: 0;
+$spinner-bg-color: rgba(255, 255, 255, 0.4) !default;
+$spinner-timeout-bg-color: rgba(230, 230, 230, 0.85) !default;
+$spinner-top: 0 !default;
+$spinner-bottom: 0 !default;
 
 .spinner-container {
   z-index: 2000000000; // Same z-index than spin.js
