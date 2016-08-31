@@ -54,7 +54,7 @@ class Spinner extends RefluxComponent {
 }
 
 Spinner.defaultProps = {
-    className           : "spinner",
+    className           : "react-spinner",
     id                  : "spinner"
 };
 
