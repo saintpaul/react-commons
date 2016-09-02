@@ -19,7 +19,6 @@ class DemoSpinner extends React.Component {
             <button onClick={this.hideSpinner}>Hide spinner</button>
         </div>
     );
-
 }
 
 module.exports = DemoSpinner;

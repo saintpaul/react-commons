@@ -18,7 +18,6 @@ var CharacterStore = Reflux.createStore({
         this.characters.push(character);
         this.trigger(character);
     }
-
 });
 
 class DemoRefluxComponent extends RefluxComponent {

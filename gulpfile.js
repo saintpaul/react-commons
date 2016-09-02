@@ -35,8 +35,9 @@ gulp.task('html', function(){
 
 gulp.task('watch', ['watchify'], function(cb) {
     gulp.watch([
+        './react-call-ajax/**/js/**/*.js',
         './react-reflux-component/**/js/**/*.js', './react-reflux-component/**/js/**/*.jsx',
-        './react-spinner/**/js/**/*.js', './react-spinner/src/js/**/*.jsx'
+        './react-spinner/**/js/**/*.js', './react-spinner/src/js/**/*.jsx',
     ], ['lint-dev']);
     gulp.watch(['./react-spinner/**/css/**/*.scss'], ['sass-dev']);
     gulp.watch(['./react-alert-box/**/css/**/*.scss'], ['sass-dev']);
