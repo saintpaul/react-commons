@@ -22,7 +22,9 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "reflux": "^0.3.0",
-    "spin.js": "^2.3.2"
+    "spin.js": "^2.3.2",
+    "jquery": "2.1.2",
+    "lodash": "~4.5.1"
   },
   "devDependencies": {
     "babel": "^6.3.13",

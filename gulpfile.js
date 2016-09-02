@@ -39,6 +39,7 @@ gulp.task('watch', ['watchify'], function(cb) {
         './react-spinner/**/js/**/*.js', './react-spinner/src/js/**/*.jsx'
     ], ['lint-dev']);
     gulp.watch(['./react-spinner/**/css/**/*.scss'], ['sass-dev']);
+    gulp.watch(['./react-alert-box/**/css/**/*.scss'], ['sass-dev']);
     gulp.watch('./demo/index.html', ['html']);
     cb();
 });
