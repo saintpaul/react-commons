@@ -7,6 +7,7 @@ var gulp                = require('gulp'),
 
 var lintTask = function(exit) {
     return gulp.src([
+        './react-call-ajax/**/js/**/*.js',
         './react-reflux-component/src/js/**/*.js', './react-reflux-component/src/js/**/*.jsx',
         './react-spinner/src/js/**/*.js', './react-spinner/src/js/**/*.jsx'
     ])
