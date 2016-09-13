@@ -11,22 +11,6 @@ class DemoAlertBox extends React.Component {
 
     constructor(props) {
         super(props);
-        // TODO RCH remove
-        //this.displayAlertErrorWithMessage();
-        this.displayAlertError();
-        //AlertBox.Actions.displayAlertWarning();
-        //AlertBox.Actions.displayAlertInfo();
-        //AlertBox.Actions.displayAlertSuccess();
-
-        //AlertBox.Actions.displayRestError({
-        //    status: 400
-        //});
-        //AlertBox.Actions.displayRestError({
-        //    status: 400,
-        //    response: {
-        //        error: "Error from backend"
-        //    }
-        //});
     }
 
     displayAlertError = () => AlertBox.Actions.displayAlertError();
@@ -46,6 +30,7 @@ class DemoAlertBox extends React.Component {
             error: "Error from backend"
         }
     });
+    ignoreNextBadRequest = () => AlertBox.Actions.ignoreNextBadRequestAlert();
 
     render = () => (
         <div>
@@ -59,6 +44,7 @@ class DemoAlertBox extends React.Component {
             <button onClick={this.displayInternalServerError}>Display RestError (500)</button>
             <button onClick={this.displayBadRequestError}>Display RestError (400)</button>
             <button onClick={this.displayBadResquestWithMessageError}>Display RestError (400 + message)</button>
+            <button onClick={this.ignoreNextBadRequest}>Ignore next BadRequest</button>
         </div>
     );
 

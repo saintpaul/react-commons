@@ -1,31 +1,40 @@
 // Error styles
-$alert-box-error-bg-color: #bd362f;
-$alert-box-error-border-color: lighten($alert-box-error-bg-color, 30%);
-$alert-box-error-color: white;
+$alert-box-error-bg-color: #bd362f !default;
+$alert-box-error-border-color: lighten($alert-box-error-bg-color, 30%) !default;
+$alert-box-error-color: white !default;
 
 // Warning styles
-$alert-box-warning-bg-color: #f89406;
-$alert-box-warning-border-color: lighten($alert-box-warning-bg-color, 30%);
-$alert-box-warning-color: white;
+$alert-box-warning-bg-color: #f89406 !default;
+$alert-box-warning-border-color: lighten($alert-box-warning-bg-color, 30%) !default;
+$alert-box-warning-color: white !default;
 
 // Info styles
-$alert-box-info-bg-color: #2f96b4;
-$alert-box-info-border-color: lighten($alert-box-info-bg-color, 30%);
-$alert-box-info-color: white;
+$alert-box-info-bg-color: #2f96b4 !default;
+$alert-box-info-border-color: lighten($alert-box-info-bg-color, 30%) !default;
+$alert-box-info-color: white !default;
 
 // Success styles
-$alert-box-success-bg-color: #51a351;
-$alert-box-success-border-color: lighten($alert-box-success-bg-color, 30%);
-$alert-box-success-color: white;
+$alert-box-success-bg-color: #51a351 !default;
+$alert-box-success-border-color: lighten($alert-box-success-bg-color, 30%) !default;
+$alert-box-success-color: white !default;
 
-$closable-button-padding: 34px;
-$alert-box-max-width: 380px;
+// Layout styles
+$alert-box-position: absolute !default;
+$closable-button-padding: 34px !default;
+$alert-box-max-width: 380px !default;
+$alert-box-bottom: 0 !default;
+$alert-box-margin: 0 0 10px 10px !default;
+$alert-box-padding: 15px !default;
+$alert-box-border: 1px solid transparent !default;
+
+$alert-box-close-top: calc(50% - 18px) !default; // Center vertically with 50% - close button height / 2
+$alert-box-reload-link-color: white !default;
 
 @mixin react-alert-box($bg-color, $border-color, $color) {
   background-color: $bg-color;
   border-color: $border-color;
   color: $color;
-  .close {
+  .alert-box-close {
     color: transparentize($color, 0.4);
     &:hover {
       color: $color;
@@ -35,12 +44,11 @@ $alert-box-max-width: 380px;
 
 .alert-box {
   z-index: 1051; // bootstrap alert z-index + 1
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  padding: 15px;
-  border: 1px solid transparent;
+  position: $alert-box-position;
+  bottom: $alert-box-bottom;
+  margin: $alert-box-margin;
+  padding: $alert-box-padding;
+  border: $alert-box-border;
   border-radius: 0;
 
   .alert-content {
@@ -50,13 +58,17 @@ $alert-box-max-width: 380px;
   &.closable {
     padding-right: $closable-button-padding;
   }
-  .close {
+  .alert-box-close {
     position: absolute;
     font-size: 18px;
-    top: calc(50% - 16px); // Center vertically with 50% - close button height / 2
+    top: $alert-box-close-top;
     right: calc(#{$closable-button-padding}/2 - 9px); // Center horizontally close button
     padding: 5px;
     text-decoration: none;
+  }
+
+  .reload-page-link {
+    color: $alert-box-reload-link-color;
   }
 
 }

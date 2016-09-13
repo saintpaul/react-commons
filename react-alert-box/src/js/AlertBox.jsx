@@ -6,18 +6,11 @@ const classnames        = require("classnames");
 
 const AlertBoxActions   = require("./AlertBoxActions");
 const AlertMessage      = require("./AlertMessage");
-
-// TODO RCH : refactor using an 'AlertMessage' class
-
+const Config            = require("./Configuration");
 
 
 /**
  * Display/Hide an alert message.
- * This component also handles HTTP failed requests and automatically display an error message according to returned status code.
- *
- * Alert object looks like : { type: "default|success|info|warning|alert", message: "An a message", closable: true|false}
- *
- * This component uses AppActions in order to display/hide error message
  */
 class AlertBox extends RefluxComponent {
 
@@ -49,7 +42,7 @@ class AlertBox extends RefluxComponent {
                         this.setState({ ignoreNextBadRequestAlert: false});
                     } else {
                         var translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
-                        this.onDisplayAlertWarning({ message: translatedError, reloadable: true });
+                        this.onDisplayAlertWarning({ message: translatedError });
                     }
                 } else {
                     this.onDisplayAlertError({ message: this.props.defaultMessage });
@@ -74,14 +67,6 @@ class AlertBox extends RefluxComponent {
     onHideAlert = () => this.setState({ alert: {} });
 
     setAlert = (alert/*:AlertMessage*/) => {
-        //alert.message = alert.message ? alert.message : this.props.defaultMessage;
-        //if(alert.type && _.has(CODES, alert.type)) {
-        //    this.setAlert(alert.type, alert.message, alert.closable, alert.reloadable);
-        //    // Smoothly scroll to the top of the page
-        //    $("html, body").animate({ scrollTop: 0 }, "slow");
-        //} else {
-        //    console.warn("Cannot display alert message, change object structure to fit alert requirements : ", alert);
-        //}
         if(!alert.message) {
             alert.message = this.props.defaultMessage;
         }
@@ -90,12 +75,7 @@ class AlertBox extends RefluxComponent {
             // Smoothly scroll to the top of the page
             $("html, body").animate({ scrollTop: 0 }, "slow");
         }
-
     };
-
-    //setAlert = (type/*:string*/, message/*:string*/, closable/*:boolean*/ = true, reloadable/*:boolean*/ = false) => {
-    //    this.setState({ alert: { type: type, message: message, closable: closable, reloadable} });
-    //};
 
     hide = (e) => {
         if(e) {
@@ -104,7 +84,6 @@ class AlertBox extends RefluxComponent {
         this.setState({ alert: null });
     };
 
-    //canDisplay = () => !_.isEmpty(this.state.alert);
     canClose = () => this.state.alert.closable === true;
     canReload = () => this.state.alert.reloadable === true;
 
@@ -115,20 +94,22 @@ class AlertBox extends RefluxComponent {
             <div data-alert className={classnames(this.props.class, this.props.alertClasses[this.state.alert.type], { "closable": this.canClose() })}>
                 <div className="alert-content">
                     <div dangerouslySetInnerHTML={{__html: this.state.alert.message }}></div>
-                    { this.canClose() ? <a href="#" onClick={this.hide} className="close">&times;</a> : null }
                     { this.canReload() ? <a className="reload-page-link" onClick={this.reloadPage}>{ this.props.reloadMessage }</a> : null }
                 </div>
+                { this.canClose() ? <a href="#" onClick={this.hide} className="alert-box-close">&times;</a> : null }
             </div>
          : null
     );
 
 }
 
-
-// TODO RCH : update prop types
 AlertBox.propTypes = {
     class               : React.PropTypes.string,
-    alertClasses        : React.PropTypes.object
+    alertClasses        : React.PropTypes.object,
+    defaultMessage      : React.PropTypes.string,
+    reloadMessage       : React.PropTypes.string,
+    translationFn       : React.PropTypes.func,
+    autoScroll          : React.PropTypes.bool
 };
 
 AlertBox.defaultProps = {
@@ -151,6 +132,6 @@ AlertBox.Actions = AlertBoxActions;
 
 // Expose message configuration
 // Each default properties of a message can be overrided
-AlertBox.Config = AlertMessage.Config;
+AlertBox.Config = Config;
 
 module.exports = AlertBox;
