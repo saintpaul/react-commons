@@ -70,7 +70,8 @@ class CallAjax {
         this.ajaxQuery
             .fail(Configuration.defaultFail)
             .fail((jqXHR, textStatus, errorThrown) => {
-                Configuration.displayRestError({status: jqXHR.status, response: {error: textStatus}});
+                let error = jqXHR.responseJSON && jqXHR.responseJSON.error;
+                Configuration.displayRestError({status: jqXHR.status, response: {error: error}});
                 CallAjax._decreaseCallCount();
                 onFail(errorThrown, textStatus);
                 if(jqXHR.status === 401)
