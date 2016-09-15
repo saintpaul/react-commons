@@ -31,6 +31,7 @@ class DemoAlertBox extends React.Component {
         }
     });
     ignoreNextBadRequest = () => AlertBox.Actions.ignoreNextBadRequestAlert();
+    hideAlert = () => AlertBox.Actions.hideAlert();
 
     render = () => (
         <div>
@@ -45,6 +46,7 @@ class DemoAlertBox extends React.Component {
             <button onClick={this.displayBadRequestError}>Display RestError (400)</button>
             <button onClick={this.displayBadResquestWithMessageError}>Display RestError (400 + message)</button>
             <button onClick={this.ignoreNextBadRequest}>Ignore next BadRequest</button>
+            <button onClick={this.hideAlert}>Hide Alert</button>
         </div>
     );
 

@@ -64,7 +64,7 @@ class AlertBox extends RefluxComponent {
 
     ignoreNextBadRequestAlert = () => this.setState({ignoreNextBadRequestAlert: true});
 
-    onHideAlert = () => this.setState({ alert: {} });
+    onHideAlert = () => this.setState({ alert: null });
 
     setAlert = (alert/*:AlertMessage*/) => {
         if(!alert.message) {
