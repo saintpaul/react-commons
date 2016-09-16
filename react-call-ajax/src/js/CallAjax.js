@@ -43,13 +43,6 @@ class CallAjax {
     static put = (url, data) => CallAjax._configure("PUT", url, data);
     static delete = (url, data) => CallAjax._configure("DELETE", url, data);
     static uploadFile = (url, data) => CallAjax._configure("POST", url, data, { processData: false });
-    static callAjax = (url, data) => new CallAjax($.ajax({
-        type: "POST",
-        url: url,
-        data: data,
-        processData: false,
-        contentType: false
-    }));
 
     /**
      * Call several CallAjax in parallel.
