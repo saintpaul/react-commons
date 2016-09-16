@@ -13,8 +13,9 @@ class CallAjax {
 
     constructor(ajaxQuery) {
         this.ajaxQuery = ajaxQuery;
-        CallAjax.callCount++;
-        Configuration.showSpinner();
+        this._setDefaultDone();
+        this._setDefaultFail();
+        CallAjax._increaseCallCount();
     }
 
     static _configure = (type, url, data, additionalConfig = {}) => {
@@ -60,27 +61,29 @@ class CallAjax {
         return callThemAll;
     };
 
+    _setDefaultDone = () => this.ajaxQuery.done(() => CallAjax._decreaseCallCount() );
+
+    _setDefaultFail = () => {
+        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => {
+            Configuration.defaultFail(jqXHR, textStatus, errorThrown);
+            // Build an error message
+            let error = jqXHR.responseJSON && jqXHR.responseJSON.error;
+            Configuration.displayRestError({status: jqXHR.status, response: {error: error}});
+            // Decrease counter
+            CallAjax._decreaseCallCount();
+            if(jqXHR.status === 401)
+                Configuration.requireLogin();
+        });
+    };
 
     done = (onDone) => {
-        this.ajaxQuery.done((data, textStatus/*, jqXHR*/) => {
-            CallAjax._decreaseCallCount();
-            onDone(data, textStatus);
-        });
+        this.ajaxQuery.done((data, textStatus/*, jqXHR*/) => onDone(data, textStatus));
 
         return this;
     };
 
     fail = (onFail) => {
-        this.ajaxQuery
-            .fail(Configuration.defaultFail)
-            .fail((jqXHR, textStatus, errorThrown) => {
-                let error = jqXHR.responseJSON && jqXHR.responseJSON.error;
-                Configuration.displayRestError({status: jqXHR.status, response: {error: error}});
-                CallAjax._decreaseCallCount();
-                onFail(errorThrown, textStatus);
-                if(jqXHR.status === 401)
-                    Configuration.requireLogin();
-            });
+        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => onFail(errorThrown, textStatus));
 
         return this;
     };
@@ -89,6 +92,11 @@ class CallAjax {
         this.ajaxQuery.always(() => onAlways());
 
         return this;
+    };
+
+    static _increaseCallCount = () => {
+        CallAjax.callCount++;
+        Configuration.showSpinner();
     };
 
     static _decreaseCallCount = () => {

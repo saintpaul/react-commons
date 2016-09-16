@@ -1,4 +1,4 @@
-const { Spinner } = require("../../../lib/react-spinner/js");
+const Spinner = require("../../../lib/react-spinner/js/Spinner");
 const AlertBox = require("../../../lib/react-alert-box/js/AlertBox");
 
 const Configuration = {

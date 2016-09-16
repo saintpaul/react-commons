@@ -1,10 +1,14 @@
 const React = require('react');
 const { CallAjax } = require('./index');
+const { Spinner } = require('../lib');
+
+const BATCH_SIZE = 2;
 
 class DemoCallAjax extends React.Component {
     initialState = () => ({
         movieInput: "",
-        movieResult: undefined
+        movieResult: undefined,
+        batchResults: []
     });
 
     constructor(props) {
@@ -12,20 +16,42 @@ class DemoCallAjax extends React.Component {
         this.state = this.initialState();
     }
 
+    _getMoviesCall = (movie) => CallAjax.get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
+    
     onChangeMovieInput = (event) => this.setState({movieInput: event.target.value});
 
-    onGetMovieInfos = () => {
-        const url = "http://www.omdbapi.com/?t=" + this.state.movieInput + "&y=&plot=short&r=json";
-        CallAjax.get(url).done((json) => this.setState({movieResult: json}));
+    onClickGetMovie = () => this._getMoviesCall(this.state.movieInput).done( (json) => this.setState({movieResult: json}) );
+
+    onClickBatch = () => {
+        let calls = [
+            () => this._getMoviesCall("Pulp Fiction"),
+            () => this._getMoviesCall("Fight Club"),
+            () => this._getMoviesCall("The Truman Show"),
+            () => this._getMoviesCall("The Pick of Destiny"),
+            () => this._getMoviesCall("Star Wars")
+        ];
+        new CallAjax.Batch(calls, BATCH_SIZE).done( (results) => this.setState({ batchResults: results }) );
     };
+
+    renderBatchResults = () => (
+        <div>
+            { this.state.batchResults.map( (r) => JSON.stringify(r) ) }
+        </div>
+    );
 
     render = () => (
         <div>
+            <Spinner id="demo-call-ajax-spinner"/>
             <h1>Demo CallAjax</h1>
-            <input onChange={this.onChangeMovieInput} value={this.state.movieInput}></input>
-            <button onClick={this.onGetMovieInfos}>GET movie informations</button>
+            <input onChange={this.onChangeMovieInput} value={this.state.movieInput}/>
+            <button onClick={this.onClickGetMovie}>GET movie informations</button>
             <br/>
             {JSON.stringify(this.state.movieResult)}
+            <br/>
+
+            Send several request in batches of size {BATCH_SIZE} :
+            <button onClick={this.onClickBatch}>BATCH</button>
+            { this.renderBatchResults() }
         </div>
     );
 }
