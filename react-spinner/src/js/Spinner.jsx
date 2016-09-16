@@ -110,9 +110,11 @@ class Spinner extends RefluxComponent {
             return null;
         }
         if(this.state.message || this.state.showProgress) {
-            return <div className="timeout progress-dialog">
-                    <h6>{ this.state.message }</h6>
-                    { this.renderProgressBar() }
+            return <div className="timeout">
+                    <div>
+                        <h6>{ this.state.message }</h6>
+                        { this.renderProgressBar() }
+                    </div>
                 </div>
 
         }
