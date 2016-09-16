@@ -14,7 +14,10 @@ class Spinner extends RefluxComponent {
 
     initialState = () => ({
         display: false,
-        isRequestTimeout: false
+        isRequestTimeout: false,
+        message: null,
+        showProgress: false,
+        progress: 0
     });
 
     constructor(props) {
@@ -49,10 +52,18 @@ class Spinner extends RefluxComponent {
 
         this.listenToAction(SpinnerActions.displaySpinner, this.display);
         this.listenToAction(SpinnerActions.hideSpinner, this.hide);
+        this.listenToAction(SpinnerActions.updateProgress, this.onProgress)
+        this.listenToAction(SpinnerActions.updateMessage, this.onMessage)
     }
 
-    display = () => {
+    display = (message) => {
         if(this.hideTimeout) clearTimeout(this.hideTimeout);
+
+        if(message){
+            this.setState({
+                message:message
+            });
+        }
 
         if(!this.state.display) {
             this.spinner.spin(document.getElementById(this.props.id));
@@ -62,6 +73,14 @@ class Spinner extends RefluxComponent {
                 this.requestTimeout = setTimeout(() => this.setState({isRequestTimeout: true}), this.props.timeoutDelay * 1000);
             }
         }
+    };
+
+    onProgress = (progress, message) => {
+        this.setState({
+            showProgress: true,
+            progress: progress,
+            message: message
+        })
     };
 
     hide = () => {
@@ -86,9 +105,31 @@ class Spinner extends RefluxComponent {
         </div>
     );
 
+    renderMessageBox = () => {
+        if(this.state.isRequestTimeout){
+            return null;
+        }
+        if(this.state.message || this.state.showProgress) {
+            return <div className="timeout progress-dialog">
+                    <h6>{ this.state.message }</h6>
+                    { this.renderProgressBar() }
+                </div>
+
+        }
+    };
+
+    renderProgressBar = () => {
+        if(this.state.showProgress) {
+            return <div className="progress" style={{width: 250, maxWidth: '100%'}}>
+                <span className="meter" style={{width: this.state.progress}}/>
+            </div>
+        }
+    }
+
     render = () => (
-        <div className={classnames({"spinner-container": this.state.display})}>
+        <div className="spinner-container"  style={{display: this.state.display ? 'block':'none'}}>
             <div id={this.props.id}></div>
+            { this.renderMessageBox() }
             {this.state.isRequestTimeout ? this.renderTimeout() : null}
         </div>
     );
@@ -110,7 +151,8 @@ Spinner.propTypes = {
     timeoutTitle        : React.PropTypes.string,
     timeoutMessage      : React.PropTypes.string,
     timeoutDelay        : React.PropTypes.number,
-    refreshButtonClass  : React.PropTypes.string
+    refreshButtonClass  : React.PropTypes.string,
+
 };
 
 // Expose Spinner actions
