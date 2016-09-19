@@ -83,7 +83,7 @@ class CallAjax {
     };
 
     fail = (onFail) => {
-        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => onFail(errorThrown, textStatus));
+        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => onFail(jqXHR, textStatus));
 
         return this;
     };
