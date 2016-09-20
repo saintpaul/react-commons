@@ -51,8 +51,8 @@ class Spinner extends RefluxComponent {
 
         this.listenToAction(SpinnerActions.displaySpinner, this.display);
         this.listenToAction(SpinnerActions.hideSpinner, this.hide);
-        this.listenToAction(SpinnerActions.updateProgress, this.onProgress)
-        this.listenToAction(SpinnerActions.updateMessage, this.onMessage)
+        this.listenToAction(SpinnerActions.updateProgress, this.onProgress);
+        this.listenToAction(SpinnerActions.updateMessage, this.onMessage);
     }
 
     display = (message) => {
@@ -73,6 +73,12 @@ class Spinner extends RefluxComponent {
             }
         }
     };
+
+    onMessage = (message) => {
+        this.setState({
+            message:message
+        })
+    }
 
     onProgress = (progress, message) => {
         this.setState({
@@ -122,7 +128,7 @@ class Spinner extends RefluxComponent {
     renderProgressBar = () => {
         if(this.state.showProgress) {
             return <div className="progress" style={{width: 250, maxWidth: '100%'}}>
-                <span className="meter" style={{width: this.state.progress}}/>
+                <span className="meter" style={{width: this.state.progress + '%'}}/>
             </div>
         }
     }
