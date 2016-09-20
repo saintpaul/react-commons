@@ -5,18 +5,12 @@ const _ = require("lodash");
 /**
  * Created by bladron on 08/04/16.
  * Utility which allows to not duplicate the code configuration for JQuery ajax call.
- * It is intended to use only JSon for both sent and received data.
  */
 
 class CallAjax {
-    static callCount = 0;
 
-    constructor(ajaxQuery) {
-        this.ajaxQuery = ajaxQuery;
-        this._setDefaultDone();
-        this._setDefaultFail();
-        CallAjax._increaseCallCount();
-    }
+    // Number of total calls performed
+    static callCount = 0;
 
     static _configure = (type, url, data, additionalConfig = {}) => {
         let configuration = {
@@ -36,7 +30,14 @@ class CallAjax {
         }
         configuration = _.merge(configuration, additionalConfig);
 
-        return new CallAjax($.ajax(configuration));
+        // Increase ajax counter
+        CallAjax._increaseCallCount();
+        // Create jQuery ajax object and attach it some callbacks
+        let ajax = $.ajax(configuration);
+        CallAjax._attachDefaultFail(ajax);
+        CallAjax._attachDefaultAlways(ajax);
+
+        return ajax;
     };
 
     static get = (url) => CallAjax._configure("GET", url);
@@ -48,51 +49,41 @@ class CallAjax {
     /**
      * Call several CallAjax in parallel.
      * This method is similar to Promise.all()
-     * @param callAjaxList {Array.<CallAjax>}
-     * @returns {CallAjax}
+     * @param callAjaxList {Array.<jqXHR>}
+     * @returns {jqXHR}
      */
     static all = (...callAjaxList) => {
-        // Extract ajaxQuery from arguments (array of CallAjax)
-        let ajaxQueries = _.map(callAjaxList, (c) => c.ajaxQuery);
-        let callThemAll = new CallAjax($.when(...ajaxQueries));
+        let callThemAll = $.when(...callAjaxList);
         // Several CallAjax were performed but we're getting only one callback, so we need to force hide spinner
         callThemAll.always(CallAjax._resetCount);
 
         return callThemAll;
     };
 
-    _setDefaultDone = () => this.ajaxQuery.done(() => CallAjax._decreaseCallCount() );
-
-    _setDefaultFail = () => {
-        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => {
+    /**
+     * Attach a default fail() callback.
+     * This function will call a default callback from Configuration and automatically display an error.
+     * @param ajaxQuery
+     * @private
+     */
+    static _attachDefaultFail = (ajaxQuery) => {
+        ajaxQuery.fail((jqXHR, textStatus, errorThrown) => {
             Configuration.defaultFail(jqXHR, textStatus, errorThrown);
             // Build an error message
             let error = jqXHR.responseJSON && jqXHR.responseJSON.error;
             Configuration.displayRestError({status: jqXHR.status, response: {error: error}});
-            // Decrease counter
-            CallAjax._decreaseCallCount();
             if(jqXHR.status === 401)
                 Configuration.requireLogin();
         });
     };
 
-    done = (onDone) => {
-        this.ajaxQuery.done((data, textStatus/*, jqXHR*/) => onDone(data, textStatus));
-
-        return this;
-    };
-
-    fail = (onFail) => {
-        this.ajaxQuery.fail((jqXHR, textStatus, errorThrown) => onFail(jqXHR, textStatus));
-
-        return this;
-    };
-
-    always = (onAlways) => {
-        this.ajaxQuery.always(() => onAlways());
-
-        return this;
-    };
+    /**
+     * Attach a default always() callback.
+     * This function will decrease total number of call count in order to hide spinner
+     * @param ajaxQuery
+     * @private
+     */
+    static _attachDefaultAlways = (ajaxQuery) => ajaxQuery.always(CallAjax._decreaseCallCount);
 
     static _increaseCallCount = () => {
         CallAjax.callCount++;
@@ -138,14 +129,12 @@ class Batch {
     };
 
     fail = (onFail) => {
-        this.waitForAll.fail(() => {
-            onFail(this.failedCalls);
-        });
+        this.waitForAll.fail(() => onFail(this.failedCalls));
 
         return this;
     };
 
-    _done = () => {
+    _finish = () => {
         CallAjax._resetCount();
 
         if(this.failedCalls.length > 0)
@@ -159,11 +148,11 @@ class Batch {
     processQueue = () => {
         let next = this.queue.shift();
         if(!next){
-            this._done();
+            this._finish();
             return;
         }
         // Call each ajax queries from the current batch in the queue
-        let queries = _.map(next, (query) => query().ajaxQuery);
+        let queries = _.map(next, (query) => query());
 
         return $.when(...queries)
             .done((...results) => {
