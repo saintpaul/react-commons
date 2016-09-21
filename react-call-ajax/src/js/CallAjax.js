@@ -26,7 +26,9 @@ class CallAjax {
         }
         if(Configuration.getAuthToken) {
             configuration.headers = {"X-AUTH-TOKEN": Configuration.getAuthToken()};
-            configuration.xhrFields = {withCredentials: true};
+        }
+        if (Configuration.withCredentials || Configuration.getAuthToken) {
+            configuration.xhrFields = { withCredentials: true };
         }
         configuration = _.merge(configuration, additionalConfig);
 
