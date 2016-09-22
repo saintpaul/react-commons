@@ -1,5 +1,6 @@
 const $ = require("jquery");
 const Configuration = require("./Configuration");
+const LodashUtils = require("./LodashUtils");
 const _ = require("lodash");
 
 /**
@@ -145,7 +146,7 @@ class Batch {
             this.waitForAll.resolve(this.succeededCalls);
     };
 
-    initQueue = () => _.chunk(this.callAjaxList, this.batchSize);
+    initQueue = () => LodashUtils.chunk(this.callAjaxList, this.batchSize);
 
     processQueue = () => {
         let next = this.queue.shift();
