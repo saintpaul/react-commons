@@ -163,7 +163,10 @@ class Batch {
                 if(queries.length === 1)
                     this.succeededCalls.push(results[0]);
                 else
-                    _.map(results, (r) => this.succeededCalls.push(r[0]));
+                    _.chain(results)
+                        .filter((r) => r)
+                        .map((r) => this.succeededCalls.push(r[0]))
+                        .value();
             })
             .fail( (fail) => this.failedCalls.push(fail) )
             .always( () => this.processQueue() );
