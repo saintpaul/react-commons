@@ -19,6 +19,18 @@ class CallAjax {
             url: url.toString()
         };
 
+        if(additionalConfig.onProgress) {
+            // Attach a progress callback to the request
+            configuration.xhr = () => {
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener("progress", (evt) => {
+                    if(evt.lengthComputable)
+                        additionalConfig.onProgress(evt);
+                }, false);
+
+                return xhr;
+            }
+        }
         if(additionalConfig.processData === false) {
             configuration.data = data;
         } else if(data) {
@@ -47,7 +59,7 @@ class CallAjax {
     static post = (url, data) => CallAjax._configure("POST", url, data);
     static put = (url, data) => CallAjax._configure("PUT", url, data);
     static delete = (url, data) => CallAjax._configure("DELETE", url, data);
-    static uploadFile = (url, data) => CallAjax._configure("POST", url, data, { processData: false });
+    static uploadFile = (url, data, onProgress) => CallAjax._configure("POST", url, data, { processData: false, onProgress: onProgress});
 
     /**
      * Call several CallAjax in parallel.
