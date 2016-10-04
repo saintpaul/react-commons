@@ -30,6 +30,9 @@ $alert-box-border: 1px solid transparent !default;
 $alert-box-close-top: calc(50%); // Center vertically with 50% - close button height / 2
 $alert-box-reload-link-color: white !default;
 
+$alert-box-z-index: 1051; // bootstrap alert z-index + 1
+
+
 @mixin react-alert-box($bg-color, $border-color, $color) {
   background-color: $bg-color;
   border-color: $border-color;
@@ -43,7 +46,7 @@ $alert-box-reload-link-color: white !default;
 }
 
 .alert-box {
-  z-index: 1051; // bootstrap alert z-index + 1
+  z-index: $alert-box-z-index;
   position: $alert-box-position;
   bottom: $alert-box-bottom;
   margin: $alert-box-margin;
