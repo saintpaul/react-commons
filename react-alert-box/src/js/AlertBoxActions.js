@@ -8,7 +8,10 @@ const AlertBoxActions = {
     displayAlertInfo            : Reflux.createAction({asyncResult: true}),
     displayAlertSuccess         : Reflux.createAction({asyncResult: true}),
     displayAlertDefault         : Reflux.createAction({asyncResult: true}),
-    ignoreNextBadRequestAlert   : Reflux.createAction({sync: true}),
+    startIgnoreBadRequest       : Reflux.createAction({sync: true}), // Will ignore every BadRequest. No message will be displayed.
+    stopIgnoreBadRequest        : Reflux.createAction({sync: true}), // Will stop ignoring BadRequest.
+    startIgnoreError            : Reflux.createAction({sync: true}), // Will ignore error (BadRequest, InternalServerError). No message will be displayed.
+    stopIgnoreError             : Reflux.createAction({sync: true}), // Will stop ignore error.
     hideAlert                   : Reflux.createAction({asyncResult: true})
 };
 

@@ -18,7 +18,7 @@ class DemoAlertBox extends React.Component {
     displayAlertWarning = () => AlertBox.Actions.displayAlertWarning();
     displayAlertInfo = () => AlertBox.Actions.displayAlertInfo();
     displayAlertSuccess = () => AlertBox.Actions.displayAlertSuccess();
-    displayInternalServerError = () => AlertBox.Actions.displayRestError({
+    displayInternalServerError = () => AlertBox.Actions.displayRpackestError({
         status: 500
     });
     displayBadRequestError = () => AlertBox.Actions.displayRestError({
@@ -30,7 +30,10 @@ class DemoAlertBox extends React.Component {
             error: "Error from backend"
         }
     });
-    ignoreNextBadRequest = () => AlertBox.Actions.ignoreNextBadRequestAlert();
+    ignoreNextBadRequest = () => AlertBox.Actions.startIgnoreBadRequest();
+    stopIgnoreNextBadRequest = () => AlertBox.Actions.stopIgnoreBadRequest();
+    ignoreNextError = () => AlertBox.Actions.startIgnoreError();
+    stopIgnoreNextError = () => AlertBox.Actions.stopIgnoreError();
     hideAlert = () => AlertBox.Actions.hideAlert();
 
     render = () => (
@@ -45,7 +48,12 @@ class DemoAlertBox extends React.Component {
             <button onClick={this.displayInternalServerError}>Display RestError (500)</button>
             <button onClick={this.displayBadRequestError}>Display RestError (400)</button>
             <button onClick={this.displayBadResquestWithMessageError}>Display RestError (400 + message)</button>
+            <br/>
             <button onClick={this.ignoreNextBadRequest}>Ignore next BadRequest</button>
+            <button onClick={this.stopIgnoreNextBadRequest}>STOP Ignore next BadRequest</button>
+            <button onClick={this.ignoreNextError}>Ignore next error</button>
+            <button onClick={this.stopIgnoreNextError}>STOP Ignore next error</button>
+            <br/>
             <button onClick={this.hideAlert}>Hide Alert</button>
         </div>
     );

@@ -24,26 +24,34 @@ class AlertBox extends RefluxComponent {
         this.listenToAction(AlertBoxActions.displayAlertInfo,            this.onDisplayAlertInfo);
         this.listenToAction(AlertBoxActions.displayAlertSuccess,         this.onDisplayAlertSuccess);
         this.listenToAction(AlertBoxActions.displayAlertDefault,         this.onDisplayAlertDefault);
-        this.listenToAction(AlertBoxActions.ignoreNextBadRequestAlert,   this.ignoreNextBadRequestAlert);
+        this.listenToAction(AlertBoxActions.startIgnoreBadRequest,       this.startIgnoreBadRequest);
+        this.listenToAction(AlertBoxActions.stopIgnoreBadRequest,        this.stopIgnoreBadRequest);
+        this.listenToAction(AlertBoxActions.startIgnoreError,            this.startIgnoreError);
+        this.listenToAction(AlertBoxActions.stopIgnoreError,             this.stopIgnoreError);
         this.listenToAction(AlertBoxActions.hideAlert,                   this.onHideAlert);
     }
 
     initialState = () => ({
         alert: null,
-        ignoreNextBadRequestAlert: false
+        ignoreBadRequest: false,
+        ignoreError: false
     });
 
     onDisplayRestError = (restError) => {
+        // Do not display any message if error is ignored
+        if(this.state.ignoreError)
+            return;
+
         switch(restError.status) {
             case 400:
+                // Do not display any message if BadRequest is ignored
+                if(this.state.ignoreBadRequest)
+                    return;
+
                 // Try to translate error to understandable message
                 if(restError.response && restError.response.error) {
-                    if(this.state.ignoreNextBadRequestAlert) {
-                        this.setState({ ignoreNextBadRequestAlert: false});
-                    } else {
-                        var translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
-                        this.onDisplayAlertWarning({ message: translatedError });
-                    }
+                    var translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
+                    this.onDisplayAlertWarning({ message: translatedError });
                 } else {
                     this.onDisplayAlertError({ message: this.props.defaultMessage });
                 }
@@ -62,7 +70,10 @@ class AlertBox extends RefluxComponent {
     onDisplayAlertSuccess   = (alert = {}) => this.setAlert( AlertMessage.success(alert) );
     onDisplayAlertDefault   = (alert = {}) => this.setAlert( AlertMessage.default(alert) );
 
-    ignoreNextBadRequestAlert = () => this.setState({ignoreNextBadRequestAlert: true});
+    startIgnoreBadRequest = () => this.setState({ignoreBadRequest: true});
+    stopIgnoreBadRequest = () => this.setState({ignoreBadRequest: false});
+    startIgnoreError = () => this.setState({ignoreError: true});
+    stopIgnoreError = () => this.setState({ignoreError: false});
 
     onHideAlert = () => this.setState({ alert: null });
 
