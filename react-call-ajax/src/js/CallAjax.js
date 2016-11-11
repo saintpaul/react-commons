@@ -12,6 +12,7 @@ class CallAjax {
 
     // Number of total calls performed
     static callCount = 0;
+    static disableSpinner = false;
 
     static _configure = (type, url, data, additionalConfig = {}) => {
         let configuration = {
@@ -53,6 +54,11 @@ class CallAjax {
         CallAjax._attachDefaultAlways(ajax);
 
         return ajax;
+    };
+
+    static bypassSpinner = () => {
+        CallAjax.disableSpinner = true;
+        return CallAjax;
     };
 
     static get = (url) => CallAjax._configure("GET", url);
@@ -102,21 +108,33 @@ class CallAjax {
 
     static _increaseCallCount = () => {
         CallAjax.callCount++;
-        Configuration.showSpinner();
+        CallAjax.showSpinner()
     };
 
     static _decreaseCallCount = () => {
         if(CallAjax.callCount > 0)
             CallAjax.callCount--;
 
-        if(CallAjax.callCount === 0)
-            Configuration.hideSpinner();
+        if(CallAjax.callCount <= 0)
+            CallAjax.hideSpinner();
     };
 
     static _resetCount = () => {
         CallAjax.callCount = 0;
-        Configuration.hideSpinner();
+        CallAjax.hideSpinner();
     };
+
+    static showSpinner = () => {
+        if(!CallAjax.disableSpinner)
+            Configuration.showSpinner();
+    };
+
+    static hideSpinner = () => {
+        Configuration.hideSpinner();
+        // Reset 'disableSpinner' behavior
+        if(CallAjax.disableSpinner)
+            CallAjax.disableSpinner = false;
+    }
 }
 
 class Batch {

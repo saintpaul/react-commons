@@ -17,10 +17,12 @@ class DemoCallAjax extends React.Component {
     }
 
     _getMoviesCall = (movie) => CallAjax.get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
-    
+    _getMoviesCallWithoutSpinner = (movie) => CallAjax.bypassSpinner().get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
+
     onChangeMovieInput = (event) => this.setState({movieInput: event.target.value});
 
     onClickGetMovie = () => this._getMoviesCall(this.state.movieInput).done( (json) => this.setState({movieResult: json}) );
+    onClickGetMovieWithoutSpinner = () => this._getMoviesCallWithoutSpinner(this.state.movieInput).done( (json) => this.setState({movieResult: json}) );
 
     onClickBatch = () => {
         let calls = [
@@ -45,6 +47,7 @@ class DemoCallAjax extends React.Component {
             <h1>Demo CallAjax</h1>
             <input onChange={this.onChangeMovieInput} value={this.state.movieInput}/>
             <button onClick={this.onClickGetMovie}>GET movie informations</button>
+            <button onClick={this.onClickGetMovieWithoutSpinner}>GET movie informations (no spinner)</button>
             <br/>
             {JSON.stringify(this.state.movieResult)}
             <br/>
