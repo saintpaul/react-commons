@@ -104,7 +104,9 @@ class AlertBox extends RefluxComponent {
         this.state.alert ?
             <div data-alert className={classnames(this.props.class, this.props.alertClasses[this.state.alert.type], { "closable": this.canClose() })}>
                 <div className="alert-content">
-                    <div dangerouslySetInnerHTML={{__html: this.state.alert.message }}></div>
+                    { this.state.alert.reactMessage ? this.state.alert.reactMessage :
+                        <div dangerouslySetInnerHTML={{__html: this.state.alert.message }}></div>
+                    }
                     { this.canReload() ? <a className="reload-page-link" onClick={this.reloadPage}>{ this.props.reloadMessage }</a> : null }
                 </div>
                 { this.canClose() ? <a href="#" onClick={this.hide} className="alert-box-close">&times;</a> : null }

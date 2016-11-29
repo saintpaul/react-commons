@@ -14,7 +14,8 @@ class DemoAlertBox extends React.Component {
     }
 
     displayAlertError = () => AlertBox.Actions.displayAlertError();
-    displayAlertErrorWithMessage = () => AlertBox.Actions.displayAlertError({ message: "Custom message", reloadable: true, closable: true });
+    displayAlertErrorWithMessage = () => AlertBox.Actions.displayAlertError({ message: "<h3>Custom HTML message</h3>", reloadable: true, closable: true });
+    displayAlertErrorWithReactMessage = () => AlertBox.Actions.displayAlertError({ reactMessage: <h3>Custom React message</h3>, reloadable: true, closable: true });
     displayAlertWarning = () => AlertBox.Actions.displayAlertWarning();
     displayAlertInfo = () => AlertBox.Actions.displayAlertInfo();
     displayAlertSuccess = () => AlertBox.Actions.displayAlertSuccess();
@@ -42,12 +43,14 @@ class DemoAlertBox extends React.Component {
             <AlertBox/>
             <button onClick={this.displayAlertError}>Display Alert (error)</button>
             <button onClick={this.displayAlertErrorWithMessage}>Display Alert (error + message)</button>
+            <button onClick={this.displayAlertErrorWithReactMessage}>Display Alert (error + React message)</button>
             <button onClick={this.displayAlertWarning}>Display Alert (warning)</button>
             <button onClick={this.displayAlertInfo}>Display Alert (info)</button>
             <button onClick={this.displayAlertSuccess}>Display Alert (success)</button>
             <button onClick={this.displayInternalServerError}>Display RestError (500)</button>
             <button onClick={this.displayBadRequestError}>Display RestError (400)</button>
             <button onClick={this.displayBadResquestWithMessageError}>Display RestError (400 + message)</button>
+            <button onClick={this.displayBadResquestWithMessageError}>Display RestError (400 + react message)</button>
             <br/>
             <button onClick={this.ignoreNextBadRequest}>Ignore next BadRequest</button>
             <button onClick={this.stopIgnoreNextBadRequest}>STOP Ignore next BadRequest</button>
