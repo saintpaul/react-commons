@@ -1,6 +1,5 @@
 const React             = require("react");
 const RefluxComponent   = require("../../../lib/react-reflux-component/js/RefluxComponent");
-const _                 = require("lodash");
 const $                 = require("jquery");
 const classnames        = require("classnames");
 

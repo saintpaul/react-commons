@@ -1,7 +1,9 @@
 const $ = require("jquery");
 const Configuration = require("./Configuration");
 const LodashUtils = require("./LodashUtils");
-const _ = require("lodash");
+const lodashMerge = require("lodash/merge");
+const lodashMap = require("lodash/map");
+const lodashChain = require("lodash/map");
 
 /**
  * Created by bladron on 08/04/16.
@@ -44,7 +46,7 @@ class CallAjax {
         if (Configuration.withCredentials || Configuration.getAuthToken) {
             configuration.xhrFields = { withCredentials: true };
         }
-        configuration = _.merge(configuration, additionalConfig);
+        configuration = lodashMerge(configuration, additionalConfig);
 
         // Increase ajax counter
         CallAjax._increaseCallCount();
