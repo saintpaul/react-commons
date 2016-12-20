@@ -3,7 +3,7 @@ const Configuration = require("./Configuration");
 const LodashUtils = require("./LodashUtils");
 const lodashMerge = require("lodash/merge");
 const lodashMap = require("lodash/map");
-const lodashChain = require("lodash/map");
+const lodashChain = require("lodash/chain");
 
 /**
  * Created by bladron on 08/04/16.
@@ -187,7 +187,7 @@ class Batch {
             return;
         }
         // Call each ajax queries from the current batch in the queue
-        let queries = _.map(next, (query) => query());
+        let queries = lodashMap(next, (query) => query());
 
         return $.when(...queries)
             .done((...results) => {
@@ -195,7 +195,7 @@ class Batch {
                 if(queries.length === 1)
                     this.succeededCalls.push(results[0]);
                 else
-                    _.chain(results)
+                    lodashChain(results)
                         .filter((r) => r)
                         .map((r) => this.succeededCalls.push(r[0]))
                         .value();
