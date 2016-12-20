@@ -1,7 +1,8 @@
 const $ = require("jquery");
 const Configuration = require("./Configuration");
 const LodashUtils = require("./LodashUtils");
-const _ = require("lodash");
+const lodashmap = require("lodash/map");
+const lodashmerge = require("lodash/merge");
 
 /**
  * Created by bladron on 08/04/16.
@@ -44,7 +45,7 @@ class CallAjax {
         if (Configuration.withCredentials || Configuration.getAuthToken) {
             configuration.xhrFields = { withCredentials: true };
         }
-        configuration = _.merge(configuration, additionalConfig);
+        configuration = lodashmerge(configuration, additionalConfig);
 
         // Increase ajax counter
         CallAjax._increaseCallCount();
@@ -185,7 +186,7 @@ class Batch {
             return;
         }
         // Call each ajax queries from the current batch in the queue
-        let queries = _.map(next, (query) => query());
+        let queries = lodashmap(next, (query) => query());
 
         return $.when(...queries)
             .done((...results) => {
@@ -193,10 +194,11 @@ class Batch {
                 if(queries.length === 1)
                     this.succeededCalls.push(results[0]);
                 else
-                    _.chain(results)
-                        .filter((r) => r)
-                        .map((r) => this.succeededCalls.push(r[0]))
-                        .value();
+                    lodashmap(
+                        results,
+                        (r) => this.succeededCalls.push(r[0])
+                    );
+
             })
             .fail( (fail) => this.failedCalls.push(fail) )
             .always( () => this.processQueue() );
