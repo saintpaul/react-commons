@@ -1,6 +1,6 @@
 {
   "name": "react-commons",
-  "version": "2.0.0",
+  "version": "2.0.0-RC1",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
@@ -74,6 +74,9 @@
       "browser": true,
       "node": true
     }
+  },
+  "browserify-shim": {
+    "jquery": "global:jQuery"
   },
   "babel": {
     "presets": [
