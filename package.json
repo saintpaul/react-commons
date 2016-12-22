@@ -76,6 +76,11 @@
       "node": true
     }
   },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
   "browserify-shim": {
     "jquery": "global:jQuery"
   },
