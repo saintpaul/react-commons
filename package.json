@@ -30,6 +30,7 @@
     "babel-preset-react": "6.x",
     "babelify": "7.x",
     "browserify": "13.x",
+    "browserify-shim": "^3.8.12",
     "del": "2.x",
     "eslint-friendly-formatter": "2.x",
     "eslint-plugin-react": "6.x",
