@@ -106,7 +106,9 @@ class Spinner extends RefluxComponent {
         <div className="timeout">
             <div>{ this.props.timeoutTitle }</div>
             <div>{ this.props.timeoutMessage }</div>
-            <div><button className={this.props.refreshButtonClass} onClick={() => window.location.reload()}>Refresh</button></div>
+            <div>
+                <button className={this.props.refreshButtonClass} onClick={() => window.location.reload()}>{this.props.refreshButtonTitle}</button>
+            </div>
         </div>
     );
 
@@ -149,7 +151,8 @@ Spinner.defaultProps = {
     timeoutTitle        : "It seems that we have a problem...",
     timeoutMessage      : "Please check your connection or reload the page.",
     timeoutDelay        : 15, // Display a warning message after X seconds. 0 = disabled
-    refreshButtonClass  : ""
+    refreshButtonClass  : "",
+    refreshButtonTitle  : "Refresh"
 };
 
 Spinner.propTypes = {
@@ -159,7 +162,7 @@ Spinner.propTypes = {
     timeoutMessage      : React.PropTypes.string,
     timeoutDelay        : React.PropTypes.number,
     refreshButtonClass  : React.PropTypes.string,
-
+    refreshButtonTitle  : React.PropTypes.string
 };
 
 // Expose Spinner actions

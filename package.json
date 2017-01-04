@@ -1,6 +1,6 @@
 {
   "name": "react-commons",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
