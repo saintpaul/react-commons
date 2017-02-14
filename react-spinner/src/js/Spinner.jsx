@@ -55,7 +55,7 @@ class Spinner extends RefluxComponent {
         this.listenToAction(SpinnerActions.updateMessage, this.onMessage);
     }
 
-    display = (message) => {
+    display = (message, disableTimeout) => {
         if(this.hideTimeout) clearTimeout(this.hideTimeout);
 
         if(message){
@@ -68,7 +68,7 @@ class Spinner extends RefluxComponent {
             this.spinner.spin(document.getElementById(this.props.id));
             this.setState({display: true});
 
-            if(this.isTimeoutEnabled()) {
+            if(this.isTimeoutEnabled() && !disableTimeout) {
                 this.requestTimeout = setTimeout(() => this.setState({isRequestTimeout: true}), this.props.timeoutDelay * 1000);
             }
         }
@@ -94,7 +94,7 @@ class Spinner extends RefluxComponent {
                 this.spinner.stop();
                 this.setState(this.initialState());
 
-                if(this.isTimeoutEnabled()) {
+                if(this.isTimeoutEnabled() && this.requestTimeout) {
                     clearTimeout(this.requestTimeout);
                 }
             }, 400);

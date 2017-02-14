@@ -14,6 +14,7 @@ class CallAjax {
     // Number of total calls performed
     static callCount = 0;
     static disableSpinner = false;
+    static disableTimeout = false;
 
     static _configure = (type, url, data, additionalConfig = {}) => {
         let configuration = {
@@ -47,6 +48,9 @@ class CallAjax {
         }
         configuration = _merge(configuration, additionalConfig);
 
+        if(additionalConfig.disableTimeout){
+            CallAjax.disableTimeout = true;
+        }
         // Increase ajax counter
         CallAjax._increaseCallCount();
         // Create jQuery ajax object and attach it some callbacks
@@ -66,7 +70,8 @@ class CallAjax {
     static post = (url, data) => CallAjax._configure("POST", url, data);
     static put = (url, data) => CallAjax._configure("PUT", url, data);
     static delete = (url, data) => CallAjax._configure("DELETE", url, data);
-    static uploadFile = (url, data, onProgress) => CallAjax._configure("POST", url, data, { processData: false, onProgress: onProgress});
+    static uploadFile = (url, data, onProgress, disableTimeout) =>
+        CallAjax._configure("POST", url, data, { disableTimeout: disableTimeout, processData: false, onProgress: onProgress});
 
     /**
      * Call several CallAjax in parallel.
@@ -127,7 +132,7 @@ class CallAjax {
 
     static showSpinner = () => {
         if(!CallAjax.disableSpinner)
-            Configuration.showSpinner();
+            Configuration.showSpinner(null, CallAjax.disableTimeout);
     };
 
     static hideSpinner = () => {
