@@ -1,4 +1,5 @@
 .*
+*.iml
 !.gitignore
 */build/
 node_modules/

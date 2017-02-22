@@ -56,7 +56,12 @@ class AlertBox extends RefluxComponent {
                 }
                 break;
             case 500:
-                this.onDisplayAlertError({ message: this.props.defaultMessage });
+                if (restError.response && restError.response.error) {
+                    var translatedError = _this.props.translationFn(restError) || _this.props.defaultMessage;
+                    _this.onDisplayAlertError({ message: translatedError });
+                } else {
+                    _this.onDisplayAlertError({ message: _this.props.defaultMessage });
+                }
                 break;
             default: // By default, don't catch other errors to let the power for other components to catch it
         }
