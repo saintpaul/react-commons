@@ -8,11 +8,17 @@ require('./gulp/sass');
 require('./gulp/browserify');
 
 gulp.task('clean', function (cb) {
-    del(['./demo/build/*'], cb);
+    del(['./demo/build/*']).then((paths) => {
+        console.log('Deleted files and folders::\n', paths.join('\n'));
+        cb();
+    });
 });
 
 gulp.task('clean-test', function (cb) {
-    del(['./test/app/js/*'], cb);
+    del(['./test/app/js/*']).then((paths) => {
+        console.log('Deleted files and folders:\n', paths.join('\n'));
+        cb();
+    });
 });
 
 gulp.task('serve', function() {
