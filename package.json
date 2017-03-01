@@ -4,6 +4,7 @@
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
+    "prebuild": "npm i",
     "build": "./build.sh",
     "prerelease": "./build.sh",
     "release": "./release.sh"
