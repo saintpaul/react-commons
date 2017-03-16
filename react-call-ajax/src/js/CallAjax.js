@@ -97,8 +97,9 @@ class CallAjax {
         ajaxQuery.fail((jqXHR, textStatus, errorThrown) => {
             Configuration.defaultFail(jqXHR, textStatus, errorThrown);
             // Build an error message
-            let error = jqXHR.responseJSON && jqXHR.responseJSON.error;
-            Configuration.displayRestError({status: jqXHR.status, response: {error: error}});
+            const error = jqXHR.responseJSON && jqXHR.responseJSON.error;
+            const args = (jqXHR.responseJSON && jqXHR.responseJSON.args) || {};
+            Configuration.displayRestError({status: jqXHR.status, response: {error, args}});
             if(jqXHR.status === 401)
                 Configuration.requireLogin();
         });
