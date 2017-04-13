@@ -78,14 +78,6 @@
       "node": true
     }
   },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "jquery": "global:jQuery"
-  },
   "babel": {
     "presets": [
       "es2015",
