@@ -45,7 +45,6 @@
     "eslint-plugin-react": "6.x",
     "extract-text-webpack-plugin": "2.x",
     "jquery": "2.x",
-    "lodash": "4.x",
     "html-webpack-plugin": "2.x",
     "node-sass": "4.x",
     "postcss-loader": "1.x",
@@ -63,8 +62,7 @@
     "react": "0.14.x || 15.x",
     "react-dom": "0.14.x || 15.x",
     "reflux": "0.4.x",
-    "jquery": "2.x",
-    "lodash": "4.x"
+    "jquery": "2.x"
   },
   "engines": {
     "node": ">=5.0.0"

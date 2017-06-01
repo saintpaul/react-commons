@@ -1,8 +1,6 @@
 const $ = require("jquery");
 const Configuration = require("./Configuration");
 const LodashUtils = require("./LodashUtils");
-const _map = require("lodash/map");
-const _merge = require("lodash/merge");
 
 /**
  * Created by bladron on 08/04/16.
@@ -46,7 +44,7 @@ class CallAjax {
         if (Configuration.withCredentials || Configuration.getAuthToken) {
             configuration.xhrFields = { withCredentials: true };
         }
-        configuration = _merge(configuration, additionalConfig);
+        configuration = Object.assign({}, configuration, additionalConfig);
 
         if(additionalConfig.disableTimeout){
             CallAjax.disableTimeout = true;
@@ -192,19 +190,16 @@ class Batch {
             return;
         }
         // Call each ajax queries from the current batch in the queue
-        let queries = _map(next, (query) => query());
+        let queries = next.map(query => query());
 
         return $.when(...queries)
             .done((...results) => {
                 // jQuery is returning an object instead of an array of result if there is only one query
-                if(queries.length === 1)
+                if(queries.length === 1) {
                     this.succeededCalls.push(results[0]);
-                else
-                    _map(
-                        results,
-                        (r) => this.succeededCalls.push(r[0])
-                    );
-
+                } else {
+                    results.map(r => this.succeededCalls.push(r[0]));
+                }
             })
             .fail( (fail) => this.failedCalls.push(fail) )
             .always( () => this.processQueue() );
