@@ -1,7 +1,10 @@
 # react-commons
 Set of reusable components for reactjs applications
 
-# How to update
+## Run the demo
+```npm start```
+
+## How to update
 1. Do your changes in .jsx, .scss files...
 2. Update CHANGELOG.md with the right version number and put an appropriate message
 3. Run **npm run release [version] [commit message]**
