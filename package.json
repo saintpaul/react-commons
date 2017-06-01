@@ -1,66 +1,63 @@
 {
-  "name": "react-commons",
+  "name": "sp-react-commons",
   "version": "2.0.8",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
-    "prebuild": "npm i",
-    "build": "./build.sh",
-    "prerelease": "./build.sh",
+    "start": "cd demo && npm start",
+    "build": "babel ./src --out-dir ./lib --ignore ./node_modules/ && cp -R ./src/scss ./lib/scss",
+    "prerelease": "npm run build",
     "release": "./release.sh"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/saintpaul/react-commons.git"
   },
+  "files": [
+    "lib/**/*",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/saintpaul/react-commons/issues"
   },
-  "homepage": "https://github.com/saintpaul/react-commonst#readme",
+  "homepage": "https://github.com/saintpaul/react-commons#readme",
   "dependencies": {
     "aggregation": "^0.9.7",
     "classnames": "~2.2.0",
     "spin.js": "^2.3.2"
   },
   "devDependencies": {
-    "babel": "6.x",
     "babel-cli": "6.x",
     "babel-eslint": "7.x",
-    "babel-plugin-transform-class-properties": "6.x",
+    "babel-loader": "6.x",
     "babel-preset-es2015": "6.x",
     "babel-preset-react": "6.x",
-    "babelify": "7.x",
-    "browserify": "13.x",
-    "del": "2.x",
+    "babel-preset-stage-0": "6.x",
+    "css-loader": "0.28.0",
+    "eslint": "3.x",
     "eslint-friendly-formatter": "2.x",
+    "eslint-loader": "1.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "4.x",
     "eslint-plugin-react": "6.x",
-    "gulp": "~3.9.1",
-    "gulp-concat": "2.x",
-    "gulp-connect": "5.x",
-    "gulp-eslint": "3.x",
-    "gulp-filter": "4.x",
-    "gulp-flatten": "0.3.x",
-    "gulp-foreach": "*",
-    "gulp-if": "2.x.x",
-    "gulp-jshint": "2.x",
-    "gulp-notify": "2.x",
-    "gulp-rename": "1.x",
-    "gulp-sass": "3.x",
-    "gulp-sourcemaps": "1.x",
-    "gulp-streamify": "1.x",
-    "gulp-uglify": "2.x",
-    "gulp-util": "3.x",
+    "extract-text-webpack-plugin": "2.x",
     "jquery": "2.x",
     "lodash": "4.x",
-    "moment": "2.x",
+    "html-webpack-plugin": "2.x",
+    "node-sass": "4.x",
+    "postcss-loader": "1.x",
+    "progress-bar-webpack-plugin": "1.x",
     "react": "15.4.x",
     "react-dom": "15.4.x",
     "reflux": "0.4.x",
-    "run-sequence": "1.2.x",
-    "vinyl-source-stream": "1.x",
-    "watchify": "3.x"
+    "sass-loader": "6.x",
+    "source-map-loader": "0.2.x",
+    "style-loader": "0.16.x",
+    "webpack": "2.x",
+    "webpack-dev-server": "2.x"
   },
   "peerDependencies": {
     "react": "0.14.x || 15.x",
@@ -69,22 +66,7 @@
     "jquery": "2.x",
     "lodash": "4.x"
   },
-  "eslintConfig": {
-    "globals": {
-      "_": true
-    },
-    "env": {
-      "browser": true,
-      "node": true
-    }
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "react"
-    ],
-    "plugins": [
-      "transform-class-properties"
-    ]
+  "engines": {
+    "node": ">=5.0.0"
   }
 }

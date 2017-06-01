@@ -1,8 +1,8 @@
 const React             = require("react");
-const RefluxComponent   = require("../../../lib/react-reflux-component/js/RefluxComponent");
 const $                 = require("jquery");
 const classnames        = require("classnames");
 
+const RefluxComponent   = require("../reflux-component/RefluxComponent");
 const AlertBoxActions   = require("./AlertBoxActions");
 const AlertMessage      = require("./AlertMessage");
 const Config            = require("./Configuration");
@@ -41,6 +41,8 @@ class AlertBox extends RefluxComponent {
         if(this.state.ignoreError)
             return;
 
+        var translatedError;
+
         switch(restError.status) {
             case 400:
                 // Do not display any message if BadRequest is ignored
@@ -49,7 +51,7 @@ class AlertBox extends RefluxComponent {
 
                 // Try to translate error to understandable message
                 if(restError.response && restError.response.error) {
-                    var translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
+                    translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
                     this.onDisplayAlertWarning({ message: translatedError });
                 } else {
                     this.onDisplayAlertError({ message: this.props.defaultMessage });
@@ -57,7 +59,7 @@ class AlertBox extends RefluxComponent {
                 break;
             case 500:
                 if (restError.response && restError.response.error) {
-                    var translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
+                    translatedError = this.props.translationFn(restError) || this.props.defaultMessage;
                     this.onDisplayAlertError({ message: translatedError });
                 } else {
                     this.onDisplayAlertError({ message: this.props.defaultMessage });

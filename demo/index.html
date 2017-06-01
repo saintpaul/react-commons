@@ -2,14 +2,25 @@
 <html>
 <head lang="en">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>React commons</title>
+    <title><%=htmlWebpackPlugin.options.title%></title>
     <meta name="description" content="">
-    <link rel="stylesheet" href="./css/main.css">
+    <% if (htmlWebpackPlugin.files.favicon) { %>
+    <link rel="shortcut icon" href="<%=htmlWebpackPlugin.files.favicon%>">
+    <% } %>
 </head>
 <body>
-    <div id="wrapper"></div>
-    <script src="app.js"></script>
+    <% if (htmlWebpackPlugin.options.appMountId) { %>
+    <div id="<%=htmlWebpackPlugin.options.appMountId%>"></div>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.appMountIds && htmlWebpackPlugin.options.appMountIds.length > 0) { %>
+    <% for (var appId in htmlWebpackPlugin.options.appMountIds) { %>
+    <div id="<%=appId%>"></div>
+    <% } %>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.devServer) { %>
+    <script src="<%=htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js"></script>
+    <% } %>
 </body>
 </html>

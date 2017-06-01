@@ -1,6 +1,7 @@
 const React = require('react');
 const Reflux = require('reflux');
-const { RefluxComponent } = require('./index');
+
+const { RefluxComponent } = require('../src');
 
 var CharacterActions = {
     createCharacter: Reflux.createAction(),

@@ -1,12 +1,9 @@
 const React = require('react');
-const { Spinner } = require('./index');
+
+const { Spinner } = require('../src');
 
 
 class DemoSpinner extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     displaySpinner = () => Spinner.Actions.displaySpinner();
     hideSpinner = () => Spinner.Actions.hideSpinner();

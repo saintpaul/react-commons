@@ -1,0 +1,15 @@
+{
+  "name": "sp-react-commons-demo",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saintpaul/react-commons.git"
+  },
+  "scripts": {
+    "start": "../node_modules/webpack-dev-server/bin/webpack-dev-server.js --colors --no-info"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

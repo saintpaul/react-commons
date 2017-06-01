@@ -1,5 +1,5 @@
-const Spinner = require("../../../lib/react-spinner/js/Spinner");
-const AlertBox = require("../../../lib/react-alert-box/js/AlertBox");
+const Spinner = require("../spinner/Spinner");
+const AlertBox = require("../alert-box/AlertBox");
 
 const Configuration = {
     showSpinner: Spinner.Actions.displaySpinner,

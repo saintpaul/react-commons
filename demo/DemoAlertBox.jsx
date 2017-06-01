@@ -1,5 +1,6 @@
 const React = require('react');
-const { AlertBox } = require('./index');
+
+const { AlertBox } = require('../src');
 
 // If needed, default configuration can be overrided
 //AlertBox.Config.ERROR = {
@@ -9,17 +10,13 @@ const { AlertBox } = require('./index');
 
 class DemoAlertBox extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     displayAlertError = () => AlertBox.Actions.displayAlertError();
     displayAlertErrorWithMessage = () => AlertBox.Actions.displayAlertError({ message: "<h3>Custom HTML message</h3>", reloadable: true, closable: true });
     displayAlertErrorWithReactMessage = () => AlertBox.Actions.displayAlertError({ reactMessage: <h3>Custom React message</h3>, reloadable: true, closable: true });
     displayAlertWarning = () => AlertBox.Actions.displayAlertWarning();
     displayAlertInfo = () => AlertBox.Actions.displayAlertInfo();
     displayAlertSuccess = () => AlertBox.Actions.displayAlertSuccess();
-    displayInternalServerError = () => AlertBox.Actions.displayRpackestError({
+    displayInternalServerError = () => AlertBox.Actions.displayRestError({
         status: 500
     });
     displayBadRequestError = () => AlertBox.Actions.displayRestError({

@@ -1,20 +1,22 @@
 const React = require('react');
-const { CallAjax } = require('./index');
-const { Spinner } = require('../lib');
+
+const { CallAjax } = require('../src');
+const { Spinner } = require('../src');
 
 const BATCH_SIZE = 2;
 
 class DemoCallAjax extends React.Component {
-    initialState = () => ({
-        movieInput: "",
-        movieResult: undefined,
-        batchResults: []
-    });
 
     constructor(props) {
         super(props);
         this.state = this.initialState();
     }
+
+    initialState = () => ({
+        movieInput: "",
+        movieResult: undefined,
+        batchResults: []
+    });
 
     _getMoviesCall = (movie) => CallAjax.get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
     _getMoviesCallWithoutSpinner = (movie) => CallAjax.bypassSpinner().get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");

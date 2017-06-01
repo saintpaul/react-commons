@@ -1,4 +1,3 @@
-const AlertBox = require("./AlertBox");
 const Config = require("./Configuration");
 
 class AlertMessage {

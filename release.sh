@@ -12,4 +12,6 @@ else
     npm version $VERSION
     git push
     git push --tags
+    echo "************************************** Publishing on npmjs.com **************************************"
+    npm publish
 fi

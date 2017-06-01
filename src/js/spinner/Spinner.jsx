@@ -1,7 +1,8 @@
 const React             = require("react");
-const RefluxComponent   = require("../../../lib/react-reflux-component/js/RefluxComponent");
-const SpinnerActions    = require("./SpinnerActions");
 const Spin              = require("spin.js");
+
+const RefluxComponent   = require("../reflux-component/RefluxComponent");
+const SpinnerActions    = require("./SpinnerActions");
 
 
 /**
