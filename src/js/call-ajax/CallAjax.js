@@ -2,10 +2,73 @@ import $ from "jquery";
 import Configuration from "./Configuration";
 import LodashUtils from "./LodashUtils";
 
-/**
- * Created by bladron on 08/04/16.
- * Utility which allows to not duplicate the code configuration for JQuery ajax call.
- */
+
+
+class Batch {
+
+    /**
+     * Call several CallAjax by batches of limited size
+     * @param callAjaxList {Array.<Function>}
+     * @param batchSize {Number} size of each batch
+     */
+    constructor(callAjaxList, batchSize = 1) {
+        // Create a JQuery deferred object (equivalent to Promise) that will wait for all batches to be executed
+        this.waitForAll = $.Deferred();
+        this.callAjaxList = callAjaxList;
+        this.batchSize = batchSize;
+        this.succeededCalls = [];
+        this.failedCalls = [];
+        this.queue = this.initQueue();
+        this.processQueue();
+    }
+
+    done = (onDone) => {
+        this.waitForAll.done(() => onDone(this.succeededCalls));
+
+        return this;
+    };
+
+    fail = (onFail) => {
+        this.waitForAll.fail(() => onFail(this.failedCalls));
+
+        return this;
+    };
+
+    _finish = () => {
+        CallAjax._resetCount();
+
+        if(this.failedCalls.length > 0)
+            this.waitForAll.reject(this.failedCalls);
+        else
+            this.waitForAll.resolve(this.succeededCalls);
+    };
+
+    initQueue = () => LodashUtils.chunk(this.callAjaxList, this.batchSize);
+
+    processQueue = () => {
+        let next = this.queue.shift();
+        if(!next){
+            this._finish();
+            return;
+        }
+        // Call each ajax queries from the current batch in the queue
+        let queries = next.map(query => query());
+
+        return $.when(...queries)
+            .done((...results) => {
+                // jQuery is returning an object instead of an array of result if there is only one query
+                if(queries.length === 1) {
+                    this.succeededCalls.push(results[0]);
+                } else {
+                    results.map(r => this.succeededCalls.push(r[0]));
+                }
+            })
+            .fail( (fail) => this.failedCalls.push(fail) )
+            .always( () => this.processQueue() );
+    };
+
+}
+
 
 export default class CallAjax {
 
@@ -145,67 +208,3 @@ export default class CallAjax {
     }
 }
 
-class Batch {
-
-    /**
-     * Call several CallAjax by batches of limited size
-     * @param callAjaxList {Array.<Function>}
-     * @param batchSize {Number} size of each batch
-     */
-    constructor(callAjaxList, batchSize = 1) {
-        // Create a JQuery deferred object (equivalent to Promise) that will wait for all batches to be executed
-        this.waitForAll = $.Deferred();
-        this.callAjaxList = callAjaxList;
-        this.batchSize = batchSize;
-        this.succeededCalls = [];
-        this.failedCalls = [];
-        this.queue = this.initQueue();
-        this.processQueue();
-    }
-
-    done = (onDone) => {
-        this.waitForAll.done(() => onDone(this.succeededCalls));
-
-        return this;
-    };
-
-    fail = (onFail) => {
-        this.waitForAll.fail(() => onFail(this.failedCalls));
-
-        return this;
-    };
-
-    _finish = () => {
-        CallAjax._resetCount();
-
-        if(this.failedCalls.length > 0)
-            this.waitForAll.reject(this.failedCalls);
-        else
-            this.waitForAll.resolve(this.succeededCalls);
-    };
-
-    initQueue = () => LodashUtils.chunk(this.callAjaxList, this.batchSize);
-
-    processQueue = () => {
-        let next = this.queue.shift();
-        if(!next){
-            this._finish();
-            return;
-        }
-        // Call each ajax queries from the current batch in the queue
-        let queries = next.map(query => query());
-
-        return $.when(...queries)
-            .done((...results) => {
-                // jQuery is returning an object instead of an array of result if there is only one query
-                if(queries.length === 1) {
-                    this.succeededCalls.push(results[0]);
-                } else {
-                    results.map(r => this.succeededCalls.push(r[0]));
-                }
-            })
-            .fail( (fail) => this.failedCalls.push(fail) )
-            .always( () => this.processQueue() );
-    };
-
-}
