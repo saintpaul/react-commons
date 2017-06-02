@@ -13,50 +13,68 @@ export default class DemoCallAjax extends React.Component {
     }
 
     initialState = () => ({
-        movieInput: "",
-        movieResult: undefined,
+        pokemonInput: "",
+        pokemonResult: undefined,
         batchResults: []
     });
 
-    _getMoviesCall = (movie) => CallAjax.get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
-    _getMoviesCallWithoutSpinner = (movie) => CallAjax.bypassSpinner().get("http://www.omdbapi.com/?t=" + movie+ "&y=&plot=short&r=json");
+    getPokemonApiUrl(pokemon) {
+        return `http://pokeapi.co/api/v2/pokemon/${pokemon}`;
+    }
 
-    onChangeMovieInput = (event) => this.setState({movieInput: event.target.value});
+    _getPokemonsCall = (pokemon) => CallAjax.get(this.getPokemonApiUrl(pokemon));
+    _getPokemonsCallWithoutSpinner = (pokemon) => CallAjax.bypassSpinner().get(this.getPokemonApiUrl(pokemon));
 
-    onClickGetMovie = () => this._getMoviesCall(this.state.movieInput).done( (json) => this.setState({movieResult: json}) );
-    onClickGetMovieWithoutSpinner = () => this._getMoviesCallWithoutSpinner(this.state.movieInput).done( (json) => this.setState({movieResult: json}) );
+    onChangePokemonInput = (event) => this.setState({pokemonInput: event.target.value});
+
+    onClickGetPokemon = () => {
+        if(this.state.pokemonInput && this.state.pokemonInput.length > 0) {
+            this._getPokemonsCall(this.state.pokemonInput).done( (json) => this.setState({pokemonResult: json}) );
+        }
+    };
+
+    onClickGetPokemonWithoutSpinner = () => {
+        if(this.state.pokemonInput && this.state.pokemonInput.length > 0) {
+            this._getPokemonsCallWithoutSpinner(this.state.pokemonInput).done((json) => this.setState({pokemonResult: json}));
+        }
+    };
 
     onClickBatch = () => {
         let calls = [
-            () => this._getMoviesCall("Pulp Fiction"),
-            () => this._getMoviesCall("Fight Club"),
-            () => this._getMoviesCall("The Truman Show"),
-            () => this._getMoviesCall("The Pick of Destiny"),
-            () => this._getMoviesCall("Star Wars")
+            () => this._getPokemonsCall("charmander"),
+            () => this._getPokemonsCall("rattata"),
+            () => this._getPokemonsCall("psyduck"),
+            () => this._getPokemonsCall("magmar"),
+            () => this._getPokemonsCall("pikachu")
         ];
         new CallAjax.Batch(calls, BATCH_SIZE).done( (results) => this.setState({ batchResults: results }) );
     };
 
-    renderBatchResults = () => (
-        <div>
-            { this.state.batchResults.map( (r) => JSON.stringify(r) ) }
-        </div>
-    );
+    renderPokemon(p) {
+        return (
+            <div key={p.id} style={ { textAlign: "center", display: "inline-block" } }>
+                <div>{p.name}</div>
+                <img src={p.sprites.front_default}/>
+            </div>
+        )
+    }
 
     render = () => (
         <div>
             <GlobalSpinner id="demo-call-ajax-spinner"/>
             <h1>Demo CallAjax</h1>
-            <input onChange={this.onChangeMovieInput} value={this.state.movieInput}/>
-            <button onClick={this.onClickGetMovie}>GET movie informations</button>
-            <button onClick={this.onClickGetMovieWithoutSpinner}>GET movie informations (no spinner)</button>
+            <input onChange={this.onChangePokemonInput} value={this.state.pokemonInput}/>
+            <button onClick={this.onClickGetPokemon}>GET pokemon informations</button>
+            <button onClick={this.onClickGetPokemonWithoutSpinner}>GET pokemon informations (no spinner)</button>
             <br/>
-            {JSON.stringify(this.state.movieResult)}
+            {this.state.pokemonResult ? this.renderPokemon(this.state.pokemonResult) : null}
             <br/>
 
             Send several request in batches of size {BATCH_SIZE} :
             <button onClick={this.onClickBatch}>BATCH</button>
-            { this.renderBatchResults() }
+            <div>
+                { this.state.batchResults.map(p => this.renderPokemon(p)) }
+            </div>
         </div>
     );
 }
