@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/saintpaul/react-commons#readme",
   "dependencies": {
-    "classnames": "~2.2.0",
     "spin.js": "^2.3.2"
   },
   "devDependencies": {
@@ -36,6 +35,7 @@
     "babel-preset-es2015": "6.x",
     "babel-preset-react": "6.x",
     "babel-preset-stage-0": "6.x",
+    "classnames": "2.x",
     "css-loader": "0.28.x",
     "eslint": "3.x",
     "eslint-friendly-formatter": "3.x",
@@ -60,6 +60,7 @@
     "webpack-dev-server": "2.x"
   },
   "peerDependencies": {
+    "classnames": "2.x",
     "prop-types": "15.5.x",
     "react": "15.x",
     "react-dom": "15.x",
