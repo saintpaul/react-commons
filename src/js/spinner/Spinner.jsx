@@ -1,8 +1,8 @@
-const React             = require("react");
-const Spin              = require("spin.js");
+import React             from "react";
+import Spin              from "spin.js";
 
-const RefluxComponent   = require("../reflux-component/RefluxComponent");
-const SpinnerActions    = require("./SpinnerActions");
+import RefluxComponent   from "../reflux/RefluxComponent";
+import SpinnerActions    from "./SpinnerActions";
 
 
 /**
@@ -10,7 +10,30 @@ const SpinnerActions    = require("./SpinnerActions");
  *
  * This component uses SpinnerActions in order to display/hide the spinner
  */
-class Spinner extends RefluxComponent {
+export default class Spinner extends RefluxComponent {
+
+    static defaultProps = {
+        className           : "react-spinner",
+        id                  : "spinner",
+        timeoutTitle        : "It seems that we have a problem...",
+        timeoutMessage      : "Please check your connection or reload the page.",
+        timeoutDelay        : 15, // Display a warning message after X seconds. 0 = disabled
+        refreshButtonClass  : "",
+        refreshButtonTitle  : "Refresh"
+    };
+
+    static propTypes = {
+        className           : React.PropTypes.string,
+        id                  : React.PropTypes.string,
+        timeoutTitle        : React.PropTypes.string,
+        timeoutMessage      : React.PropTypes.string,
+        timeoutDelay        : React.PropTypes.number,
+        refreshButtonClass  : React.PropTypes.string,
+        refreshButtonTitle  : React.PropTypes.string
+    };
+
+    // Expose Spinner actions
+    static Actions = SpinnerActions;
 
     initialState = () => ({
         display: false,
@@ -50,10 +73,10 @@ class Spinner extends RefluxComponent {
             , position: 'absolute' // Element positioning
         });
 
-        this.listenToAction(SpinnerActions.displaySpinner, this.display);
-        this.listenToAction(SpinnerActions.hideSpinner, this.hide);
-        this.listenToAction(SpinnerActions.updateProgress, this.onProgress);
-        this.listenToAction(SpinnerActions.updateMessage, this.onMessage);
+        this.listenTo(SpinnerActions.displaySpinner, this.display);
+        this.listenTo(SpinnerActions.hideSpinner, this.hide);
+        this.listenTo(SpinnerActions.updateProgress, this.onProgress);
+        this.listenTo(SpinnerActions.updateMessage, this.onMessage);
     }
 
     display = (message, disableTimeout) => {
@@ -134,39 +157,14 @@ class Spinner extends RefluxComponent {
                 <span className="meter" style={{width: this.state.progress + '%'}}/>
             </div>
         }
-    }
+    };
 
     render = () => (
         <div className="spinner-container"  style={{display: this.state.display ? 'block':'none'}}>
-            <div id={this.props.id}></div>
+            <div id={this.props.id}/>
             { this.renderMessageBox() }
             {this.state.isRequestTimeout ? this.renderTimeout() : null}
         </div>
     );
 
 }
-
-Spinner.defaultProps = {
-    className           : "react-spinner",
-    id                  : "spinner",
-    timeoutTitle        : "It seems that we have a problem...",
-    timeoutMessage      : "Please check your connection or reload the page.",
-    timeoutDelay        : 15, // Display a warning message after X seconds. 0 = disabled
-    refreshButtonClass  : "",
-    refreshButtonTitle  : "Refresh"
-};
-
-Spinner.propTypes = {
-    className           : React.PropTypes.string,
-    id                  : React.PropTypes.string,
-    timeoutTitle        : React.PropTypes.string,
-    timeoutMessage      : React.PropTypes.string,
-    timeoutDelay        : React.PropTypes.number,
-    refreshButtonClass  : React.PropTypes.string,
-    refreshButtonTitle  : React.PropTypes.string
-};
-
-// Expose Spinner actions
-Spinner.Actions = SpinnerActions;
-
-module.exports = Spinner;

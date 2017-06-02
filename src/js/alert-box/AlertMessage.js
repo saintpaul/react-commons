@@ -1,6 +1,6 @@
-const Config = require("./Configuration");
+import Config from "./Configuration";
 
-class AlertMessage {
+export default class AlertMessage {
 
     /**
      *
@@ -61,14 +61,11 @@ class AlertMessage {
     // TODO RCH : use _.defaultTo available in lodash 4.15.0
     static _getOrElse = (value, fallback) => value !== undefined ? value : fallback;
 
+    static TYPES = {
+        "DEFAULT"   : "DEFAULT",
+        "SUCCESS"   : "SUCCESS",
+        "INFO"      : "INFO",
+        "WARNING"   : "WARNING",
+        "ERROR"     : "ERROR"
+    };
 }
-
-AlertMessage.TYPES = {
-    "DEFAULT"   : "DEFAULT",
-    "SUCCESS"   : "SUCCESS",
-    "INFO"      : "INFO",
-    "WARNING"   : "WARNING",
-    "ERROR"     : "ERROR"
-};
-
-module.exports = AlertMessage;

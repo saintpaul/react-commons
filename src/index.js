@@ -1,6 +1,5 @@
-module.exports = {
-    AlertBox: require('./js/alert-box/AlertBox'),
-    CallAjax: require("./js/call-ajax/CallAjax"),
-    RefluxComponent: require('./js/reflux-component/RefluxComponent'),
-    Spinner: require('./js/spinner/Spinner')
-};
+export { default as AlertBox } from './js/alert-box/AlertBox';
+export { default as CallAjax } from './js/call-ajax/CallAjax';
+export { default as RefluxComponent } from './js/reflux/RefluxComponent';
+export { default as RefluxListener } from './js/reflux/RefluxListener';
+export { default as Spinner } from './js/spinner/Spinner';

@@ -1,9 +1,9 @@
-const React = require('react');
+import React from 'react';
 
-const { Spinner } = require('../src');
+import { Spinner } from '../src';
 
 
-class DemoSpinner extends React.Component {
+export default class DemoSpinner extends React.Component {
 
     displaySpinner = () => Spinner.Actions.displaySpinner();
     hideSpinner = () => Spinner.Actions.hideSpinner();
@@ -17,5 +17,3 @@ class DemoSpinner extends React.Component {
         </div>
     );
 }
-
-module.exports = DemoSpinner;

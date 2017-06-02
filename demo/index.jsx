@@ -1,15 +1,15 @@
-const React = require('react');
-const ReactDom = require('react-dom');
+import React from 'react';
+import ReactDom from 'react-dom';
 
-const DemoCallAjax = require("./DemoCallAjax");
-const DemoSpinner = require("./DemoSpinner");
-const DemoRefluxComponent = require("./DemoRefluxComponent");
-const DemoAlertBox = require("./DemoAlertBox");
+import DemoCallAjax from "./DemoCallAjax";
+import DemoSpinner from "./DemoSpinner";
+import DemoRefluxComponent from "./DemoRefluxComponent";
+import DemoAlertBox from "./DemoAlertBox";
 
 // styles
 require('./main.scss');
 
-const Demo = (
+const Demo = () => (
     <div>
         <DemoRefluxComponent/>
         <DemoSpinner/>
@@ -18,4 +18,4 @@ const Demo = (
     </div>
 );
 
-ReactDom.render(Demo, document.getElementById('app'));
+ReactDom.render(<Demo/>, document.getElementById('app'));

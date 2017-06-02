@@ -1,14 +1,14 @@
-const React = require('react');
+import React from 'react';
 
-const { AlertBox } = require('../src');
+import { AlertBox } from '../src';
 
-// If needed, default configuration can be overrided
+// If needed, default configuration can be overridden
 //AlertBox.Config.ERROR = {
 //    closable: false,
 //    reloadable: true
 //};
 
-class DemoAlertBox extends React.Component {
+export default class DemoAlertBox extends React.Component {
 
     displayAlertError = () => AlertBox.Actions.displayAlertError();
     displayAlertErrorWithMessage = () => AlertBox.Actions.displayAlertError({ message: "<h3>Custom HTML message</h3>", reloadable: true, closable: true });
@@ -59,5 +59,3 @@ class DemoAlertBox extends React.Component {
     );
 
 }
-
-module.exports = DemoAlertBox;

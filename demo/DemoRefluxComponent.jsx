@@ -1,27 +1,31 @@
-const React = require('react');
-const Reflux = require('reflux');
+import React from 'react';
+import Reflux from 'reflux';
 
-const { RefluxComponent } = require('../src');
+import { RefluxComponent } from '../src';
 
-var CharacterActions = {
+const CharacterActions = {
     createCharacter: Reflux.createAction(),
     fightCharacter: Reflux.createAction()
 };
 
-var CharacterStore = Reflux.createStore({
+class CharacterStoreClass extends Reflux.Store {
 
-    init() {
+    constructor() {
+        super();
         this.characters = [];
         this.listenTo(CharacterActions.createCharacter, this.addCharacter);
-    },
+    }
 
-    addCharacter(character) {
+    addCharacter = (character) => {
         this.characters.push(character);
         this.trigger(character);
-    }
-});
+    };
+}
 
-class DemoRefluxComponent extends RefluxComponent {
+const CharacterStore = new CharacterStoreClass();
+
+
+export default class DemoRefluxComponent extends RefluxComponent {
 
     constructor(props) {
         super(props);
@@ -31,8 +35,8 @@ class DemoRefluxComponent extends RefluxComponent {
             power: undefined
         };
         // Since we're extending RefluxComponent, we're now able to call some useful functions
-        this.listenToStore(CharacterStore, this.onStoreUpdate);
-        this.listenToAction(CharacterActions.fightCharacter, this.onFightCharacter);
+        this.listenTo(CharacterStore, this.onStoreUpdate);
+        this.listenTo(CharacterActions.fightCharacter, this.onFightCharacter);
     }
 
     onStoreUpdate = () => this.forceUpdate();
@@ -55,5 +59,3 @@ class DemoRefluxComponent extends RefluxComponent {
         </div>
     );
 }
-
-module.exports = DemoRefluxComponent;

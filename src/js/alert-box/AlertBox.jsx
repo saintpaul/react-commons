@@ -1,33 +1,65 @@
-const React             = require("react");
-const $                 = require("jquery");
-const classnames        = require("classnames");
+import React            from "react";
+import $                from "jquery";
+import classnames       from "classnames";
 
-const RefluxComponent   = require("../reflux-component/RefluxComponent");
-const AlertBoxActions   = require("./AlertBoxActions");
-const AlertMessage      = require("./AlertMessage");
-const Config            = require("./Configuration");
+import RefluxComponent  from "../reflux/RefluxComponent";
+import AlertBoxActions  from "./AlertBoxActions";
+import AlertMessage     from "./AlertMessage";
+import Config           from "./Configuration";
 
 
 /**
  * Display/Hide an alert message.
  */
-class AlertBox extends RefluxComponent {
+export default class AlertBox extends RefluxComponent {
+
+    static propTypes = {
+        class               : React.PropTypes.string,
+        alertClasses        : React.PropTypes.object,
+        defaultMessage      : React.PropTypes.string,
+        reloadMessage       : React.PropTypes.string,
+        translationFn       : React.PropTypes.func,
+        autoScroll          : React.PropTypes.bool
+    };
+
+    static defaultProps = {
+        class: "alert-box",
+        alertClasses: {
+            "DEFAULT"   : "default",
+            "SUCCESS"   : "success",
+            "INFO"      : "info",
+            "WARNING"   : "warning",
+            "ERROR"     : "error"
+        },
+        defaultMessage : "Something went wrong, please call the support.",   // Default error message
+        reloadMessage : " Click here to refresh the page",                   // Displayed message for reloadable messages
+        translationFn : (restError) => restError.response.error,             // Use this function to auto display an error from backend
+        autoScroll : false
+    };
+
+    // Expose AlertBox actions
+    static Actions = AlertBoxActions;
+
+    // Expose message configuration
+    // Each default properties of a message can be overrided
+    static Config = Config;
+
 
     constructor(props) {
         super(props);
         this.state = this.initialState();
 
-        this.listenToAction(AlertBoxActions.displayRestError,            this.onDisplayRestError);
-        this.listenToAction(AlertBoxActions.displayAlertError,           this.onDisplayAlertError);
-        this.listenToAction(AlertBoxActions.displayAlertWarning,         this.onDisplayAlertWarning);
-        this.listenToAction(AlertBoxActions.displayAlertInfo,            this.onDisplayAlertInfo);
-        this.listenToAction(AlertBoxActions.displayAlertSuccess,         this.onDisplayAlertSuccess);
-        this.listenToAction(AlertBoxActions.displayAlertDefault,         this.onDisplayAlertDefault);
-        this.listenToAction(AlertBoxActions.startIgnoreBadRequest,       this.startIgnoreBadRequest);
-        this.listenToAction(AlertBoxActions.stopIgnoreBadRequest,        this.stopIgnoreBadRequest);
-        this.listenToAction(AlertBoxActions.startIgnoreError,            this.startIgnoreError);
-        this.listenToAction(AlertBoxActions.stopIgnoreError,             this.stopIgnoreError);
-        this.listenToAction(AlertBoxActions.hideAlert,                   this.onHideAlert);
+        this.listenTo(AlertBoxActions.displayRestError,            this.onDisplayRestError);
+        this.listenTo(AlertBoxActions.displayAlertError,           this.onDisplayAlertError);
+        this.listenTo(AlertBoxActions.displayAlertWarning,         this.onDisplayAlertWarning);
+        this.listenTo(AlertBoxActions.displayAlertInfo,            this.onDisplayAlertInfo);
+        this.listenTo(AlertBoxActions.displayAlertSuccess,         this.onDisplayAlertSuccess);
+        this.listenTo(AlertBoxActions.displayAlertDefault,         this.onDisplayAlertDefault);
+        this.listenTo(AlertBoxActions.startIgnoreBadRequest,       this.startIgnoreBadRequest);
+        this.listenTo(AlertBoxActions.stopIgnoreBadRequest,        this.stopIgnoreBadRequest);
+        this.listenTo(AlertBoxActions.startIgnoreError,            this.startIgnoreError);
+        this.listenTo(AlertBoxActions.stopIgnoreError,             this.stopIgnoreError);
+        this.listenTo(AlertBoxActions.hideAlert,                   this.onHideAlert);
     }
 
     initialState = () => ({
@@ -106,51 +138,19 @@ class AlertBox extends RefluxComponent {
 
     reloadPage = () => window.location.reload();
 
-    render = () => (
-        this.state.alert ?
+    render() {
+        if(!this.state.alert) { return null; }
+        return (
             <div data-alert className={classnames(this.props.class, this.props.alertClasses[this.state.alert.type], { "closable": this.canClose() })}>
                 <div className="alert-content">
                     { this.state.alert.reactMessage ? this.state.alert.reactMessage :
-                        <div dangerouslySetInnerHTML={{__html: this.state.alert.message }}></div>
+                        <div dangerouslySetInnerHTML={{__html: this.state.alert.message }}/>
                     }
                     { this.canReload() ? <a className="reload-page-link" onClick={this.reloadPage}>{ this.props.reloadMessage }</a> : null }
                 </div>
                 { this.canClose() ? <a href="#" onClick={this.hide} className="alert-box-close">&times;</a> : null }
             </div>
-         : null
-    );
+        );
+    }
 
 }
-
-AlertBox.propTypes = {
-    class               : React.PropTypes.string,
-    alertClasses        : React.PropTypes.object,
-    defaultMessage      : React.PropTypes.string,
-    reloadMessage       : React.PropTypes.string,
-    translationFn       : React.PropTypes.func,
-    autoScroll          : React.PropTypes.bool
-};
-
-AlertBox.defaultProps = {
-    class: "alert-box",
-    alertClasses: {
-        "DEFAULT"   : "default",
-        "SUCCESS"   : "success",
-        "INFO"      : "info",
-        "WARNING"   : "warning",
-        "ERROR"     : "error"
-    },
-    defaultMessage : "Something went wrong, please call the support.",   // Default error message
-    reloadMessage : " Click here to refresh the page",                   // Displayed message for reloadable messages
-    translationFn : (restError) => restError.response.error,             // Use this function to auto display an error from backend
-    autoScroll : false
-};
-
-// Expose AlertBox actions
-AlertBox.Actions = AlertBoxActions;
-
-// Expose message configuration
-// Each default properties of a message can be overrided
-AlertBox.Config = Config;
-
-module.exports = AlertBox;

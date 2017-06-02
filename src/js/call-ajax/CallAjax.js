@@ -1,18 +1,21 @@
-const $ = require("jquery");
-const Configuration = require("./Configuration");
-const LodashUtils = require("./LodashUtils");
+import $ from "jquery";
+import Configuration from "./Configuration";
+import LodashUtils from "./LodashUtils";
 
 /**
  * Created by bladron on 08/04/16.
  * Utility which allows to not duplicate the code configuration for JQuery ajax call.
  */
 
-class CallAjax {
+export default class CallAjax {
 
     // Number of total calls performed
     static callCount = 0;
     static disableSpinner = false;
     static disableTimeout = false;
+
+    static Config = Configuration;
+    static Batch = Batch;
 
     static _configure = (type, url, data, additionalConfig = {}) => {
         let configuration = {
@@ -206,8 +209,3 @@ class Batch {
     };
 
 }
-
-CallAjax.Config = Configuration;
-CallAjax.Batch = Batch;
-
-module.exports = CallAjax;

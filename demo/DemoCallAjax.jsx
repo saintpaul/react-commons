@@ -1,11 +1,11 @@
-const React = require('react');
+import React from 'react';
 
-const { CallAjax } = require('../src');
-const { Spinner } = require('../src');
+import { CallAjax } from '../src';
+import { Spinner } from '../src';
 
 const BATCH_SIZE = 2;
 
-class DemoCallAjax extends React.Component {
+export default class DemoCallAjax extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,5 +60,3 @@ class DemoCallAjax extends React.Component {
         </div>
     );
 }
-
-module.exports = DemoCallAjax;

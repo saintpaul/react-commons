@@ -1,5 +1,4 @@
-const Reflux = require('reflux');
-
+import Reflux from 'reflux';
 
 const AlertBoxActions = {
     displayRestError            : Reflux.createAction({asyncResult: true}),
@@ -15,4 +14,4 @@ const AlertBoxActions = {
     hideAlert                   : Reflux.createAction({asyncResult: true})
 };
 
-module.exports = AlertBoxActions;
+export default AlertBoxActions;

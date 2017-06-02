@@ -1,4 +1,4 @@
-const Configuration = {
+export default {
     DEFAULT: {
         closable: true,
         reloadable: false
@@ -20,5 +20,3 @@ const Configuration = {
         reloadable: false
     }
 };
-
-module.exports = Configuration;
