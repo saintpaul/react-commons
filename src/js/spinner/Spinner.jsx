@@ -1,4 +1,5 @@
 import React             from "react";
+import PropTypes         from "prop-types";
 import Spin              from "spin.js";
 
 import RefluxComponent   from "../reflux/RefluxComponent";
@@ -23,13 +24,13 @@ export default class Spinner extends RefluxComponent {
     };
 
     static propTypes = {
-        className           : React.PropTypes.string,
-        id                  : React.PropTypes.string,
-        timeoutTitle        : React.PropTypes.string,
-        timeoutMessage      : React.PropTypes.string,
-        timeoutDelay        : React.PropTypes.number,
-        refreshButtonClass  : React.PropTypes.string,
-        refreshButtonTitle  : React.PropTypes.string
+        className           : PropTypes.string,
+        id                  : PropTypes.string,
+        timeoutTitle        : PropTypes.string,
+        timeoutMessage      : PropTypes.string,
+        timeoutDelay        : PropTypes.number,
+        refreshButtonClass  : PropTypes.string,
+        refreshButtonTitle  : PropTypes.string
     };
 
     // Expose Spinner actions

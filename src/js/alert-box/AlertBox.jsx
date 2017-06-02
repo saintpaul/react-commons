@@ -1,4 +1,5 @@
 import React            from "react";
+import PropTypes        from "prop-types";
 import $                from "jquery";
 import classnames       from "classnames";
 
@@ -14,12 +15,12 @@ import Config           from "./Configuration";
 export default class AlertBox extends RefluxComponent {
 
     static propTypes = {
-        class               : React.PropTypes.string,
-        alertClasses        : React.PropTypes.object,
-        defaultMessage      : React.PropTypes.string,
-        reloadMessage       : React.PropTypes.string,
-        translationFn       : React.PropTypes.func,
-        autoScroll          : React.PropTypes.bool
+        class               : PropTypes.string,
+        alertClasses        : PropTypes.object,
+        defaultMessage      : PropTypes.string,
+        reloadMessage       : PropTypes.string,
+        translationFn       : PropTypes.func,
+        autoScroll          : PropTypes.bool
     };
 
     static defaultProps = {
