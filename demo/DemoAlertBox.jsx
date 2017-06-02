@@ -36,7 +36,7 @@ export default class DemoAlertBox extends React.Component {
 
     render = () => (
         <div>
-            <h1>Demo react-alert-box</h1>
+            <h1>Demo alert-box</h1>
             <AlertBox/>
             <button onClick={this.displayAlertError}>Display Alert (error)</button>
             <button onClick={this.displayAlertErrorWithMessage}>Display Alert (error + message)</button>

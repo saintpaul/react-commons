@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import DemoCallAjax from "./DemoCallAjax";
-import DemoSpinner from "./DemoSpinner";
+import DemoGlobalSpinner from "./DemoGlobalSpinner";
 import DemoRefluxComponent from "./DemoRefluxComponent";
 import DemoAlertBox from "./DemoAlertBox";
+import DemoComposer from "./DemoComposer";
 
 // styles
 require('./main.scss');
@@ -12,9 +13,10 @@ require('./main.scss');
 const Demo = () => (
     <div>
         <DemoRefluxComponent/>
-        <DemoSpinner/>
+        <DemoGlobalSpinner/>
         <DemoAlertBox/>
         <DemoCallAjax/>
+        <DemoComposer/>
     </div>
 );
 

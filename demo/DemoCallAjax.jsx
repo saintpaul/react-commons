@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CallAjax } from '../src';
-import { Spinner } from '../src';
+import { GlobalSpinner } from '../src';
 
 const BATCH_SIZE = 2;
 
@@ -45,7 +45,7 @@ export default class DemoCallAjax extends React.Component {
 
     render = () => (
         <div>
-            <Spinner id="demo-call-ajax-spinner"/>
+            <GlobalSpinner id="demo-call-ajax-spinner"/>
             <h1>Demo CallAjax</h1>
             <input onChange={this.onChangeMovieInput} value={this.state.movieInput}/>
             <button onClick={this.onClickGetMovie}>GET movie informations</button>

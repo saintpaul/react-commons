@@ -48,7 +48,7 @@ export default class DemoRefluxComponent extends RefluxComponent {
 
     render = () => (
         <div>
-            <h1>Demo react-reflux-component</h1>
+            <h1>Demo reflux-component</h1>
             <input type="text" value={this.state.character} onChange={this.onChangeCharacter}/>
             <br/>
             <br/>

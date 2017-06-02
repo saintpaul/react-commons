@@ -1,9 +1,9 @@
-import Spinner from "../spinner/Spinner";
+import GlobalSpinner from "../global-spinner/GlobalSpinner";
 import AlertBox from "../alert-box/AlertBox";
 
 export default {
-    showSpinner: Spinner.Actions.displaySpinner,
-    hideSpinner: Spinner.Actions.hideSpinner,
+    showSpinner: GlobalSpinner.Actions.displaySpinner,
+    hideSpinner: GlobalSpinner.Actions.hideSpinner,
     displayRestError: AlertBox.Actions.displayRestError,
     withCredentials: undefined,     // Special XHR header to add if authentication is needed
     getAuthToken: undefined,        // Function to call when auth-token is needed

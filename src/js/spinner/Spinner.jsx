@@ -1,171 +1,66 @@
-import React             from "react";
-import PropTypes         from "prop-types";
-import Spin              from "spin.js";
-
-import RefluxComponent   from "../reflux/RefluxComponent";
-import SpinnerActions    from "./SpinnerActions";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Spin  from "spin.js";
 
 
-/**
- * Display/Hide a Spinner.
- *
- * This component uses SpinnerActions in order to display/hide the spinner
- */
-export default class Spinner extends RefluxComponent {
-
-    static defaultProps = {
-        className           : "react-spinner",
-        id                  : "spinner",
-        timeoutTitle        : "It seems that we have a problem...",
-        timeoutMessage      : "Please check your connection or reload the page.",
-        timeoutDelay        : 15, // Display a warning message after X seconds. 0 = disabled
-        refreshButtonClass  : "",
-        refreshButtonTitle  : "Refresh"
-    };
+export default class Spinner extends React.Component {
 
     static propTypes = {
-        className           : PropTypes.string,
-        id                  : PropTypes.string,
-        timeoutTitle        : PropTypes.string,
-        timeoutMessage      : PropTypes.string,
-        timeoutDelay        : PropTypes.number,
-        refreshButtonClass  : PropTypes.string,
-        refreshButtonTitle  : PropTypes.string
+        config    : PropTypes.object,
+        stopped   : PropTypes.bool,
+        className : PropTypes.string
     };
 
-    // Expose Spinner actions
-    static Actions = SpinnerActions;
-
-    initialState = () => ({
-        display: false,
-        isRequestTimeout: false,
-        message: null,
-        showProgress: false,
-        progress: 0
-    });
-
-    constructor(props) {
-        super(props);
-        this.state = this.initialState();
-    }
+    static defaultConfig = {
+        lines: 11 // The number of lines to draw
+        , length: 20 // The length of each line
+        , width: 4 // The line thickness
+        , radius: 20 // The radius of the inner circle
+        , scale: 1 // Scales overall size of the spinner
+        , corners: 1 // Corner roundness (0..1)
+        , color: '#000' // #rgb or #rrggbb or array of colors
+        , opacity: 0.25 // Opacity of the lines
+        , rotate: 0 // The rotation offset
+        , direction: 1 // 1: clockwise, -1: counterclockwise
+        , speed: 1.3 // Rounds per second
+        , trail: 60 // Afterglow percentage
+        , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+        , zIndex: 2e9 // The z-index (defaults to 2000000000)
+        , shadow: true // Whether to render a shadow
+        , hwaccel: false // Whether to use hardware acceleration
+        , position: 'relative' // Element positioning
+    };
 
     componentDidMount() {
-        // Create spinner instance
-        this.spinner = new Spin({
-            lines: 11 // The number of lines to draw
-            , length: 20 // The length of each line
-            , width: 4 // The line thickness
-            , radius: 20 // The radius of the inner circle
-            , scale: 1 // Scales overall size of the spinner
-            , corners: 1 // Corner roundness (0..1)
-            , color: '#000' // #rgb or #rrggbb or array of colors
-            , opacity: 0.25 // Opacity of the lines
-            , rotate: 0 // The rotation offset
-            , direction: 1 // 1: clockwise, -1: counterclockwise
-            , speed: 1.3 // Rounds per second
-            , trail: 60 // Afterglow percentage
-            , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-            , zIndex: 2e9 // The z-index (defaults to 2000000000)
-            , className: this.props.className // The CSS class to assign to the spinner
-            , top: '50%' // Top position relative to parent
-            , left: '50%' // Left position relative to parent
-            , shadow: true // Whether to render a shadow
-            , hwaccel: false // Whether to use hardware acceleration
-            , position: 'absolute' // Element positioning
-        });
-
-        this.listenTo(SpinnerActions.displaySpinner, this.display);
-        this.listenTo(SpinnerActions.hideSpinner, this.hide);
-        this.listenTo(SpinnerActions.updateProgress, this.onProgress);
-        this.listenTo(SpinnerActions.updateMessage, this.onMessage);
+        this.spinner = new Spin(this.config);
+        if (!this.props.stopped) {
+            this.spinner.spin(this.containerRef);
+        }
     }
 
-    display = (message, disableTimeout) => {
-        if(this.hideTimeout) clearTimeout(this.hideTimeout);
-
-        if(message){
-            this.setState({
-                message:message
-            });
+    componentWillReceiveProps(newProps) {
+        if (newProps.stopped === true && !this.props.stopped) {
+            this.spinner.stop();
+        } else if (!newProps.stopped && this.props.stopped === true) {
+            this.spinner.spin(this.containerRef);
         }
-
-        if(!this.state.display) {
-            this.spinner.spin(document.getElementById(this.props.id));
-            this.setState({display: true});
-
-            if(this.isTimeoutEnabled() && !disableTimeout) {
-                this.requestTimeout = setTimeout(() => this.setState({isRequestTimeout: true}), this.props.timeoutDelay * 1000);
-            }
-        }
-    };
-
-    onMessage = (message) => {
-        this.setState({
-            message:message
-        })
     }
 
-    onProgress = (progress, message) => {
-        this.setState({
-            showProgress: true,
-            progress: progress,
-            message: message
-        })
-    };
+    componentWillUnmount() {
+        this.spinner.stop();
+    }
 
-    hide = () => {
-        // Here we use a timeout to avoid flickering issue in case of several sequential http requests
-        this.hideTimeout = setTimeout( () => {
-                this.spinner.stop();
-                this.setState(this.initialState());
-
-                if(this.isTimeoutEnabled() && this.requestTimeout) {
-                    clearTimeout(this.requestTimeout);
-                }
-            }, 400);
-    };
-
-    isTimeoutEnabled = () => this.props.timeoutDelay !== 0;
-
-    renderTimeout = () => (
-        <div className="timeout">
-            <div>{ this.props.timeoutTitle }</div>
-            <div>{ this.props.timeoutMessage }</div>
-            <div>
-                <button className={this.props.refreshButtonClass} onClick={() => window.location.reload()}>{this.props.refreshButtonTitle}</button>
-            </div>
-        </div>
-    );
-
-    renderMessageBox = () => {
-        if(this.state.isRequestTimeout){
-            return null;
+    get config() {
+        if(this.props.config || this.props.className) {
+            return Object.assign({}, Spinner.defaultConfig, this.props.config, { className : this.props.className });
+        } else {
+            return Spinner.defaultConfig;
         }
-        if(this.state.message || this.state.showProgress) {
-            return <div className="timeout">
-                    <div>
-                        <h6>{ this.state.message }</h6>
-                        { this.renderProgressBar() }
-                    </div>
-                </div>
+    }
 
-        }
-    };
-
-    renderProgressBar = () => {
-        if(this.state.showProgress) {
-            return <div className="progress" style={{width: 250, maxWidth: '100%'}}>
-                <span className="meter" style={{width: this.state.progress + '%'}}/>
-            </div>
-        }
-    };
-
-    render = () => (
-        <div className="spinner-container"  style={{display: this.state.display ? 'block':'none'}}>
-            <div id={this.props.id}/>
-            { this.renderMessageBox() }
-            {this.state.isRequestTimeout ? this.renderTimeout() : null}
-        </div>
-    );
-
+    render() {
+        return (
+            <span ref={containerRef => this.containerRef = containerRef} />
+        );
+    }
 }
