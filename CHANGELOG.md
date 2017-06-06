@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## 3.0.0
+## v3.0.0
 #### Changed
  - [Webpack] We have moved from `Gulp` to `Webpack`.
  - [CallAjax] `Call ajax` doesn't exists anymore. It's `Request` now. It's using `fetch` and `XmlHttpRequest` (to listen upload progress) instead of `$.ajax`. However, the API is still more or less the same. 
