@@ -47,7 +47,6 @@
     "eslint-plugin-react": "6.x",
     "extract-text-webpack-plugin": "2.x",
     "html-webpack-plugin": "2.x",
-    "jquery": "2.x",
     "node-sass": "4.x",
     "postcss-loader": "2.x",
     "progress-bar-webpack-plugin": "1.x",
@@ -66,8 +65,7 @@
     "prop-types": "15.5.x",
     "react": "15.x",
     "react-dom": "15.x",
-    "reflux": "6.4.x",
-    "jquery": "2.x"
+    "reflux": "6.4.x"
   },
   "engines": {
     "node": ">=5.0.0"
