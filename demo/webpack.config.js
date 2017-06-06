@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 const buildPath = path.join(__dirname, './build');
-const sourcePath = './';
+const sourcePath = './src';
 const context = path.join(__dirname, sourcePath);
 
 
@@ -98,6 +98,12 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
+        proxy: {
+            "/server": {
+                target: "http://localhost:8112",
+                pathRewrite: {"^/server" : ""}
+            }
+        },
         contentBase: sourcePath,
         port : port,
         compress: false,

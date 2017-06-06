@@ -4,7 +4,9 @@
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
+    "postinstall": "cd demo-server && npm i",
     "start": "cd demo && npm start",
+    "start-server": "cd demo-server && npm start",
     "build": "babel ./src --out-dir ./lib --ignore ./node_modules/ && cp -R ./src/scss ./lib/scss",
     "prerelease": "npm run build",
     "release": "./release.sh"

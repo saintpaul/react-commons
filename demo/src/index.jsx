@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-import DemoCallAjax from "./DemoCallAjax";
+import DemoRequest from "./DemoRequest";
 import DemoGlobalSpinner from "./DemoGlobalSpinner";
 import DemoRefluxComponent from "./DemoRefluxComponent";
 import DemoAlertBox from "./DemoAlertBox";
@@ -15,7 +15,7 @@ const Demo = () => (
         <DemoRefluxComponent/>
         <DemoGlobalSpinner/>
         <DemoAlertBox/>
-        <DemoCallAjax/>
+        <DemoRequest/>
         <DemoComposer/>
     </div>
 );

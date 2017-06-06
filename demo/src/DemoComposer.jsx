@@ -2,7 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import PropTypes from 'prop-types';
 
-import {Compose} from '../src';
+import {Compose} from '../../src';
 
 
 function getRandomInt(min = 0 , max = 100) {

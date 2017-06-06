@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AlertBox } from '../src';
+import { AlertBox } from '../../src';
 
 // If needed, default configuration can be overridden
 //AlertBox.Config.ERROR = {

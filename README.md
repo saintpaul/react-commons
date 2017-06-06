@@ -2,7 +2,8 @@
 Set of reusable components for reactjs applications
 
 ## Run the demo
-```npm start```
+Run the client : ```npm start```
+Run the server : ```npm run start-server```
 
 ## How to update
 1. Do your changes in .jsx, .scss files...

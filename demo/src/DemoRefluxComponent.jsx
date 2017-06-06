@@ -1,7 +1,7 @@
 import React from 'react';
 import Reflux from 'reflux';
 
-import { RefluxComponent } from '../src';
+import { RefluxComponent } from '../../src';
 
 const CharacterActions = {
     createCharacter: Reflux.createAction(),

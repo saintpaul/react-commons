@@ -1,0 +1,17 @@
+{
+  "name": "sp-react-commons-demo-server",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saintpaul/react-commons.git"
+  },
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "hapi": "^16.4.1"
+  },
+  "devDependencies": {}
+}

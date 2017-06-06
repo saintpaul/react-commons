@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GlobalSpinner } from '../src';
+import { GlobalSpinner } from '../../src';
 
 
 export default class DemoGlobalSpinner extends React.Component {
