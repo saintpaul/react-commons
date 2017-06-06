@@ -1,6 +1,5 @@
 import React            from "react";
 import PropTypes        from "prop-types";
-import $                from "jquery";
 import classnames       from "classnames";
 
 import RefluxComponent  from "../reflux/RefluxComponent";
@@ -116,14 +115,13 @@ export default class AlertBox extends RefluxComponent {
 
     onHideAlert = () => this.setState({ alert: null });
 
-    setAlert = (alert/*:AlertMessage*/) => {
+    setAlert = (alert) => {
         if(!alert.message) {
             alert.message = this.props.defaultMessage;
         }
         this.setState({ alert : alert });
         if(this.props.autoScroll) {
-            // Smoothly scroll to the top of the page
-            $("html, body").animate({ scrollTop: 0 }, "slow");
+            window.scrollTo && window.scrollTo(0, 0);
         }
     };
 
