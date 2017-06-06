@@ -2,7 +2,7 @@
 Set of reusable components for reactjs applications
 
 ## Run the demo
-Run the client : ```npm start```
+Run the client : ```npm start```<br/>
 Run the server : ```npm run start-server```
 
 ## How to update
