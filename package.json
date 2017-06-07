@@ -4,7 +4,6 @@
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
-    "postinstall": "cd demo-server && npm i",
     "start": "cd demo && npm start",
     "start-server": "cd demo-server && npm start",
     "build": "babel ./src --out-dir ./lib --ignore ./node_modules/ && cp -R ./src/scss ./lib/scss",
@@ -46,6 +45,7 @@
     "eslint-plugin-jsx-a11y": "5.x",
     "eslint-plugin-react": "6.x",
     "extract-text-webpack-plugin": "2.x",
+    "hapi": "16.4.x",
     "html-webpack-plugin": "2.x",
     "node-sass": "4.x",
     "postcss-loader": "2.x",
