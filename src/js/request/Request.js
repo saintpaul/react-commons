@@ -179,12 +179,7 @@ class Request {
                 }, false);
 
                 if(onProgress) {
-                    xhr.addEventListener('progress', (event) => {
-                        if (event.lengthComputable) {
-                            const percent = Math.round((event.loaded / event.total) * 100);
-                            onProgress(event, percent);
-                        }
-                    }, false);
+                    xhr.addEventListener('progress', (event) => onProgress(event), false);
                 }
 
                 xhr.open(method, url);
