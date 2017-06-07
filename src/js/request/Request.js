@@ -189,6 +189,14 @@ class Request {
 
                 xhr.open(method, url);
 
+                if(Configuration.getAuthToken) {
+                    xhr.setRequestHeader('X-AUTH-TOKEN', Configuration.getAuthToken());
+                }
+
+                if(Configuration.withCredentials || Configuration.getAuthToken) {
+                    xhr.withCredentials = true;
+                }
+
                 if(contentType) {
                     xhr.setRequestHeader("Content-Type", contentType);
                 }
