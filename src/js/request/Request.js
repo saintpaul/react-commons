@@ -5,7 +5,7 @@ import LodashUtils from "./LodashUtils";
 
 class Request {
 
-    static Configuration = Configuration;
+    Configuration = Configuration;
     
     constructor(spinnerDisabled = false, timeoutDisabled = false) {
         this.spinnerDisabled = spinnerDisabled;
