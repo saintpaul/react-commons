@@ -164,7 +164,7 @@ class Request {
                     }
 
                     if(!error && xhr.status >= 200 && xhr.status < 400) {
-                        resolve(xhr, json, error);
+                        resolve(json);
                     } else {
                         reject(xhr, json, error);
                     }
