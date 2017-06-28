@@ -94,7 +94,6 @@ class Request {
         const error = json && json.error;
         const args = (json && json.args) || {};
         const status = (response && response.status) || 404;
-        console.log('display rest error', status)
         Configuration.displayRestError({status, response: {error, args}});
         if(status === 401) {
             Configuration.requireLogin();
