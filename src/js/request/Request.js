@@ -67,7 +67,12 @@ class Request {
                                 reject(response, json);
                             }
                         }).catch(e => {
-                            reject(response, null, e)
+                            // If response is okay but cannot be converted to JSON, resolve the promise anyway
+                            if(response.ok) {
+                                resolve()
+                            } else {
+                                reject(response, null, e)
+                            }
                         });
 
                     } catch(e) {

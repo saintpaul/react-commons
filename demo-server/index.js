@@ -60,6 +60,14 @@ server.route({
 });
 
 server.route({
+    method: 'GET',
+    path: '/empty-response',
+    handler: function (request, reply) {
+        return reply().code(200);
+    }
+});
+
+server.route({
     method: 'POST',
     path: '/upload',
     config: {

@@ -38,6 +38,8 @@ export default class DemoRequest extends React.Component {
 
     triggerNoResponse() { Request.get(`${apiUrl}/no-response`); }
 
+    triggerEmptyResponse() { Request.get(`${apiUrl}/empty-response`); }
+
     onChangePokemonInput = (event) => this.setState({pokemonInput: event.target.value});
 
     onClickGetPokemon = () => {
@@ -128,6 +130,9 @@ export default class DemoRequest extends React.Component {
             </button>
             <button onClick={this.triggerNoResponse}>
                 No response
+            </button>
+            <button onClick={this.triggerEmptyResponse}>
+                Empty response
             </button>
             <br/>
             <div>
