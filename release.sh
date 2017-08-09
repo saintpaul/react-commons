@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-    echo "************************************** Missing arguments. Usage : deploy.sh [version] [message]"
+    echo "************************************** Missing arguments. Usage : release.sh [version] [message]"
 else
     VERSION=$1
     MESSAGE=$2
