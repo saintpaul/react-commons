@@ -27,7 +27,7 @@ class RequestsExecutor {
     execute(request, spinnerDisabled = false, timeoutDisabled = false) {
 
         if(!spinnerDisabled) {
-            this._showSpinner(spinnerDisabled, timeoutDisabled);
+            this._showSpinner(timeoutDisabled);
         }
 
         const call = {
