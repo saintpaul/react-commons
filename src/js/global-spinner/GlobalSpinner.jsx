@@ -146,7 +146,7 @@ export default class GlobalSpinner extends RefluxComponent {
 
     render = () => (
         <div className="spinner-container"  style={{display: this.state.display ? 'block':'none'}}>
-            <Spinner config={GlobalSpinner.spinnerConfig} stopped={!this.state.display}/>
+            <Spinner config={GlobalSpinner.spinnerConfig} stopped={!this.state.display} className={this.props.className}/>
             { this.renderMessageBox() }
             {this.state.isRequestTimeout ? this.renderTimeout() : null}
         </div>
