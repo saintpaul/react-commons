@@ -64,7 +64,8 @@ class Request {
                             if(response.ok) {
                                 resolve(json)
                             } else {
-                                reject(response, json);
+                                // Give back full response object + json in case of response different from 2xx
+                                reject({response, json});
                             }
                         }).catch(e => {
                             // If response is okay but cannot be converted to JSON, resolve the promise anyway
