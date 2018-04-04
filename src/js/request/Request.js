@@ -7,25 +7,36 @@ class Request {
 
     Config = Configuration;
     
-    constructor(spinnerDisabled = false, timeoutDisabled = false) {
-        this.spinnerDisabled = spinnerDisabled;
-        this.timeoutDisabled = timeoutDisabled;
+    constructor(forceOptions = {}) {
+        this.forceOptions = {
+            spinnerDisabled: forceOptions.spinnerDisabled !== undefined ? forceOptions.spinnerDisabled : false,
+            timeoutDisabled: forceOptions.timeoutDisabled !== undefined ? forceOptions.timeoutDisabled : false,
+            withCredentials: forceOptions.withCredentials !== undefined ? forceOptions.withCredentials : this.Config.withCredentials
+        };
     }
 
     disableSpinner() {
-        return new Request(true, this.timeoutDisabled);
+        return new Request({ spinnerDisabled: true });
     }
 
     disableTimeout() {
-        return new Request(this.spinnerDisabled, true);
+        return new Request({ timeoutDisabled: true });
     }
 
     enableSpinner() {
-        return new Request(false, this.timeoutDisabled);
+        return new Request({ spinnerDisabled: false });
     }
 
     enableTimeout() {
-        return new Request(this.spinnerDisabled, false);
+        return new Request({ timeoutDisabled: false });
+    }
+
+    disableWithCredentials() {
+        return new Request({ withCredentials: false });
+    }
+
+    enableWithCredentials() {
+        return new Request({ withCredentials: true });
     }
 
     _doJsonRequest(url, method, body) {
@@ -44,7 +55,7 @@ class Request {
             options.headers['X-AUTH-TOKEN'] = Configuration.getAuthToken();
         }
 
-        if(Configuration.withCredentials || Configuration.getAuthToken) {
+        if(this.forceOptions.withCredentials || Configuration.getAuthToken) {
             options.credentials = 'include';
         }
 
@@ -86,7 +97,7 @@ class Request {
             });
         };
 
-        return RequestsExecutor.execute(request, this.spinnerDisabled, this.timeoutDisabled);
+        return RequestsExecutor.execute(request, this.forceOptions.spinnerDisabled, this.forceOptions.timeoutDisabled);
     }
 
     _defaultFailed(response, json, errorThrown) {
@@ -193,7 +204,7 @@ class Request {
                     xhr.setRequestHeader('X-AUTH-TOKEN', Configuration.getAuthToken());
                 }
 
-                if(Configuration.withCredentials || Configuration.getAuthToken) {
+                if(this.withCredentials || Configuration.getAuthToken) {
                     xhr.withCredentials = true;
                 }
 
@@ -209,7 +220,7 @@ class Request {
             });
         };
 
-        return RequestsExecutor.execute(request, this.spinnerDisabled, this.timeoutDisabled);
+        return RequestsExecutor.execute(request, this.forceOptions.spinnerDisabled, this.forceOptions.timeoutDisabled);
     }
 }
 

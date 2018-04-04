@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## v4.0.0
+#### Changed
+ - Bump version
+ - [Request] Give more control by adding `enableWithCredentials()` and `disableWithCredentials()` functions to easily instantiate a new Request instead of going through `Configuration` object. 
+ - [Request] Refactor `Request` by replacing boolean options with `forceOptions`, which is more robust and easier to maintain for future options. 
+ 
+
 ## v3.0.0
 #### Changed
  - [Webpack] We have moved from `Gulp` to `Webpack`.
