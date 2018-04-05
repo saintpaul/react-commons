@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## v4.1.0
+#### New
+ - [Request] Add `withTimeOut()` to set a timeout on the Promise. Do not misunderstood with `enableTimeout()` which enable a timeout for spinner 
+
+
 ## v4.0.0
 #### Changed
  - Bump version

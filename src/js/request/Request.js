@@ -11,7 +11,8 @@ class Request {
         this.forceOptions = {
             spinnerDisabled: forceOptions.spinnerDisabled !== undefined ? forceOptions.spinnerDisabled : false,
             timeoutDisabled: forceOptions.timeoutDisabled !== undefined ? forceOptions.timeoutDisabled : false,
-            withCredentials: forceOptions.withCredentials !== undefined ? forceOptions.withCredentials : this.Config.withCredentials
+            withCredentials: forceOptions.withCredentials !== undefined ? forceOptions.withCredentials : this.Config.withCredentials,
+            timeoutDuration: forceOptions.timeoutDuration !== undefined ? forceOptions.timeoutDuration : undefined
         };
     }
 
@@ -37,6 +38,16 @@ class Request {
 
     enableWithCredentials() {
         return new Request({ withCredentials: true });
+    }
+
+    /**
+     * Set a timeout on the Promise. If timeout is reached, promise will be rejected.
+     * Do not misunderstood with `enableTimeout()` which enable a timeout for spinner
+     * @param duration (ms)
+     * @returns {Request}
+     */
+    setTimeOut(duration) {
+        return new Request({ timeoutDuration: duration });
     }
 
     _doJsonRequest(url, method, body) {
@@ -67,23 +78,50 @@ class Request {
                     _reject(...args);
                 };
 
+                const _handleResponse = (response, json) => {
+                    if(response.ok) {
+                        resolve(json);
+                    } else {
+                        // Give back full response object + json in case of response different from 2xx
+                        reject({response, json});
+                    }
+                };
+
+                // Handle timeout (if timeout is enabled)
+                let didTimeOut = false,
+                    timeOut;
+
+                if(this.forceOptions.timeoutDuration) {
+                    timeOut = setTimeout(() => {
+                        // If was fallback here, it means we've reached timeout, so we reject the promise
+                        didTimeOut = true;
+                        reject(new Error(`Request timed out, promise took longer than ${this.forceOptions.timeoutDuration}ms`))
+                    }, this.forceOptions.timeoutDuration);
+                }
+
                 fetch(url, options).then(response => {
 
                     try {
 
                         response.json().then(json => {
-                            if(response.ok) {
-                                resolve(json)
+                            if(this.forceOptions.timeoutDuration) {
+                                clearTimeout(timeOut);
+                                // Process response if timeout wasn't reached
+                                if(!didTimeOut) {
+                                    _handleResponse(response, json)
+                                }
                             } else {
-                                // Give back full response object + json in case of response different from 2xx
-                                reject({response, json});
+                                _handleResponse(response, json);
                             }
                         }).catch(e => {
+                            if(this.forceOptions.timeoutDuration)
+                                return;
+
                             // If response is okay but cannot be converted to JSON, resolve the promise anyway
                             if(response.ok) {
-                                resolve()
+                                resolve();
                             } else {
-                                reject(response, null, e)
+                                reject(response, null, e);
                             }
                         });
 

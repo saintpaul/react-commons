@@ -40,6 +40,8 @@ export default class DemoRequest extends React.Component {
 
     triggerEmptyResponse() { Request.get(`${apiUrl}/empty-response`); }
 
+    triggerTimeout() { Request.setTimeOut(3000).get(`${apiUrl}/timeout`); }
+
     onChangePokemonInput = (event) => this.setState({pokemonInput: event.target.value});
 
     onClickGetPokemon = () => {
@@ -133,6 +135,9 @@ export default class DemoRequest extends React.Component {
             </button>
             <button onClick={this.triggerEmptyResponse}>
                 Empty response
+            </button>
+            <button onClick={this.triggerTimeout}>
+                Timeout
             </button>
             <br/>
             <div>

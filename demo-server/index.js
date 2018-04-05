@@ -82,6 +82,16 @@ server.route({
     }
 });
 
+server.route({
+    method: 'GET',
+    path: '/timeout',
+    handler: function (request, reply) {
+        setTimeout(() => {
+            reply({ message: "success"}).code(200);
+        }, 5 * 1000);
+    }
+});
+
 server.start(function () {
     console.log('info', 'Server running at: ' + server.info.uri);
 });
