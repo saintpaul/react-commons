@@ -5,15 +5,28 @@ import LodashUtils from "./LodashUtils";
 
 class Request {
 
+    // Alias for Configuration object
     Config = Configuration;
-    
+
+    /**
+     * Build a new Request with options `forceOptions`
+     * @param forceOptions object with not mandatory options (spinnerDisabled, timeoutDisabled, withCredentials, timeoutDuration)
+     */
     constructor(forceOptions = {}) {
-        this.forceOptions = {
-            spinnerDisabled: forceOptions.spinnerDisabled !== undefined ? forceOptions.spinnerDisabled : false,
-            timeoutDisabled: forceOptions.timeoutDisabled !== undefined ? forceOptions.timeoutDisabled : false,
-            withCredentials: forceOptions.withCredentials !== undefined ? forceOptions.withCredentials : this.Config.withCredentials,
-            timeoutDuration: forceOptions.timeoutDuration !== undefined ? forceOptions.timeoutDuration : undefined
-        };
+        this.forceOptions = forceOptions;
+    }
+
+    getOptions() {
+        return {
+            spinnerDisabled: this.forceOptions.spinnerDisabled !== undefined ? this.forceOptions.spinnerDisabled : false,
+            timeoutDisabled: this.forceOptions.timeoutDisabled !== undefined ? this.forceOptions.timeoutDisabled : false,
+            withCredentials: this.forceOptions.withCredentials !== undefined ? this.forceOptions.withCredentials : this.Config.withCredentials,
+            timeoutDuration: this.forceOptions.timeoutDuration !== undefined ? this.forceOptions.timeoutDuration : undefined,
+            getAuthToken : this.Config.getAuthToken,
+            defaultFail: this.Config.defaultFail,
+            displayRestError: this.Config.displayRestError,
+            requireLogin: this.Config.requireLogin
+        }
     }
 
     disableSpinner() {
@@ -62,11 +75,11 @@ class Request {
             options.body = JSON.stringify(body);
         }
 
-        if(Configuration.getAuthToken) {
-            options.headers['X-AUTH-TOKEN'] = Configuration.getAuthToken();
+        if(this.getOptions().getAuthToken) {
+            options.headers['X-AUTH-TOKEN'] = this.getOptions().getAuthToken();
         }
 
-        if(this.forceOptions.withCredentials || Configuration.getAuthToken) {
+        if(this.getOptions().withCredentials || this.getOptions().getAuthToken) {
             options.credentials = 'include';
         }
 
@@ -91,12 +104,12 @@ class Request {
                 let didTimeOut = false,
                     timeOut;
 
-                if(this.forceOptions.timeoutDuration) {
+                if(this.getOptions().timeoutDuration) {
                     timeOut = setTimeout(() => {
                         // If was fallback here, it means we've reached timeout, so we reject the promise
                         didTimeOut = true;
-                        reject(new Error(`Request timed out, promise took longer than ${this.forceOptions.timeoutDuration}ms`))
-                    }, this.forceOptions.timeoutDuration);
+                        reject(new Error(`Request timed out, promise took longer than ${this.getOptions().timeoutDuration}ms`))
+                    }, this.getOptions().timeoutDuration);
                 }
 
                 fetch(url, options).then(response => {
@@ -104,7 +117,7 @@ class Request {
                     try {
 
                         response.json().then(json => {
-                            if(this.forceOptions.timeoutDuration) {
+                            if(this.getOptions().timeoutDuration) {
                                 clearTimeout(timeOut);
                                 // Process response if timeout wasn't reached
                                 if(!didTimeOut) {
@@ -114,7 +127,7 @@ class Request {
                                 _handleResponse(response, json);
                             }
                         }).catch(e => {
-                            if(this.forceOptions.timeoutDuration)
+                            if(this.getOptions().timeoutDuration)
                                 return;
 
                             // If response is okay but cannot be converted to JSON, resolve the promise anyway
@@ -135,18 +148,18 @@ class Request {
             });
         };
 
-        return RequestsExecutor.execute(request, this.forceOptions.spinnerDisabled, this.forceOptions.timeoutDisabled);
+        return RequestsExecutor.execute(request, this.getOptions().spinnerDisabled, this.getOptions().timeoutDisabled);
     }
 
     _defaultFailed(response, json, errorThrown) {
-        Configuration.defaultFail(response, json, errorThrown);
+        this.getOptions().defaultFail(response, json, errorThrown);
         // Build an error message
         const error = json && json.error;
         const args = (json && json.args) || {};
         const status = (response && response.status) || 404;
-        Configuration.displayRestError({status, response: {error, args}});
+        this.getOptions().displayRestError({status, response: {error, args}});
         if(status === 401) {
-            Configuration.requireLogin();
+            this.getOptions().requireLogin();
         }
     }
 
@@ -238,11 +251,11 @@ class Request {
 
                 xhr.open(method, url);
 
-                if(Configuration.getAuthToken) {
-                    xhr.setRequestHeader('X-AUTH-TOKEN', Configuration.getAuthToken());
+                if(this.getOptions().getAuthToken) {
+                    xhr.setRequestHeader('X-AUTH-TOKEN', this.getOptions().getAuthToken());
                 }
 
-                if(this.withCredentials || Configuration.getAuthToken) {
+                if(this.getOptions().withCredentials || this.getOptions().getAuthToken) {
                     xhr.withCredentials = true;
                 }
 
@@ -258,7 +271,7 @@ class Request {
             });
         };
 
-        return RequestsExecutor.execute(request, this.forceOptions.spinnerDisabled, this.forceOptions.timeoutDisabled);
+        return RequestsExecutor.execute(request, this.getOptions().spinnerDisabled, this.getOptions().timeoutDisabled);
     }
 }
 

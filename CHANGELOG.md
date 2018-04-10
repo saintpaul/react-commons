@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## v4.2.0
+#### Fixed
+ - [Request] Fixed issue related to bad usage of Request options. Now using `getOptions()` to access options.
+
 ## v4.1.0
 #### New
  - [Request] Add `withTimeOut()` to set a timeout on the Promise. Do not misunderstood with `enableTimeout()` which enable a timeout for spinner 
