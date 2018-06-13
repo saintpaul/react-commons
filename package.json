@@ -1,6 +1,6 @@
 {
   "name": "sp-react-commons",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
@@ -52,8 +52,8 @@
     "postcss-loader": "2.x",
     "progress-bar-webpack-plugin": "1.x",
     "prop-types": "15.5.x",
-    "react": "15.5.x",
-    "react-dom": "15.5.x",
+    "react": "16.x",
+    "react-dom": "16.x",
     "reflux": "6.4.x",
     "sass-loader": "6.x",
     "source-map-loader": "0.2.x",
@@ -64,8 +64,8 @@
   "peerDependencies": {
     "classnames": "2.x",
     "prop-types": "15.5.x",
-    "react": "15.x",
-    "react-dom": "15.x",
+    "react": "16.x",
+    "react-dom": "16.x",
     "reflux": "6.4.x"
   },
   "engines": {
