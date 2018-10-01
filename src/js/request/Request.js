@@ -96,7 +96,7 @@ class Request {
                         resolve(json);
                     } else {
                         // Give back full response object + json in case of response different from 2xx
-                        reject({response, json});
+                        reject(response, json);
                     }
                 };
 
