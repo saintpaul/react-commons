@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+# /!\ Version 2 is deprecated, consider using v4 branch or latest /!\
+
 ## 2.0.0 
 #### Changed
  - Moved Dependencies to PeerDependencies to laod them from project
