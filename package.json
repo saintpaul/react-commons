@@ -34,6 +34,7 @@
     "del": "2.x",
     "eslint-friendly-formatter": "2.x",
     "eslint-plugin-react": "6.x",
+    "event-stream": "3.3.4",
     "gulp": "~3.9.1",
     "gulp-concat": "2.x",
     "gulp-connect": "5.x",
@@ -50,7 +51,7 @@
     "gulp-streamify": "1.x",
     "gulp-uglify": "2.x",
     "gulp-util": "3.x",
-    "jquery": "2.x",
+    "jquery": "3.x",
     "lodash": "4.x",
     "moment": "2.x",
     "react": "15.4.x",
@@ -64,7 +65,7 @@
     "react": "0.14.x || 15.x",
     "react-dom": "0.14.x || 15.x",
     "reflux": "0.4.x",
-    "jquery": "2.x",
+    "jquery": "3.x",
     "lodash": "4.x"
   },
   "eslintConfig": {
