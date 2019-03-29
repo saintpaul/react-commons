@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.4.0
+#### Changed
+- [node] Upgrade node-sass and fsevents to support Node 10.15.3
+
 ## v4.3.1
 #### Fixed
  - [Request] Some BadRequest wasn't catched because of a bad argument
