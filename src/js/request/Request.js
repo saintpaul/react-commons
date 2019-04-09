@@ -246,7 +246,7 @@ class Request {
                 }, false);
 
                 if(onProgress && xhr.upload) {
-                    xhr.upload.progress = onProgress;
+                    xhr.upload.addEventListener('progress', onProgress, false);
                 }
 
                 xhr.open(method, url);

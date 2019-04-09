@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.4.2
+#### Fixed
+- [Request] Fix typo
+
 ## v4.4.1
 #### Fixed
 - [Request] Fix "progress" callback (now using xhr2.upload.progress)
