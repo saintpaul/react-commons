@@ -9,7 +9,7 @@ else
     git add .
     git commit -m "$MESSAGE"
     echo "************************************** Adding tag $VERSION and push to Github **************************************"
-    npm version $VERSION
+    npm version v$VERSION
     git push
     git push --tags
     echo "************************************** Publishing on npmjs.com **************************************"
