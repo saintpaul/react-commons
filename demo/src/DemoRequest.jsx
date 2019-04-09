@@ -69,9 +69,8 @@ export default class DemoRequest extends React.Component {
 
     onUpload = (e) => {
         if(e.target.files.length > 0) {
-            Request.uploadFile(`${apiUrl}/upload`, e.target.files[0], e.target.value, (event, percent) => {
+            Request.uploadFile(`${apiUrl}/upload`, e.target.files[0], e.target.value, (event) => {
                 console.log('Upload progress event', event);
-                console.log('Upload progress percent', percent);
             });
         }
     };

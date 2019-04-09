@@ -74,7 +74,7 @@ server.route({
 
         payload: {
             output: 'stream',
-            parse: true
+            maxBytes: 1000 * 1000 * 10
         },
     },
     handler: function (request, reply) {
