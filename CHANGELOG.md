@@ -4,9 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.5.0
+#### New
+- [Request] Support "text/plain" responses
+
 ## v4.4.3
 #### Fixed
-- [Request] Update release script : no need to pass a "v" before version number when releasing
+- Update release script : no need to pass a "v" before version number when releasing
 
 ## v4.4.2
 #### Fixed

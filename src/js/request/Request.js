@@ -116,7 +116,17 @@ class Request {
 
                     try {
 
-                        response.json().then(json => {
+                        let contentType = response.headers.get("Content-Type"),
+                            bodyPromise;
+
+                        // Use appropriate body parser depending of the response type header (fallback to JSON)
+                        if(contentType && contentType.indexOf("text/plain") >= 0) {
+                            bodyPromise = response.text();
+                        } else {
+                            bodyPromise = response.json();
+                        }
+
+                        bodyPromise.then(json => {
                             if(this.getOptions().timeoutDuration) {
                                 clearTimeout(timeOut);
                                 // Process response if timeout wasn't reached
