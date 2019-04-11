@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.5.1
+#### Fixed
+- [Request] Rollback missing argument from Promise rejection.
+If response failed (status != 2xx), give back full response object and json content. Exemple: `catch({response, json})`
+
 ## v4.5.0
 #### New
 - [Request] Support "text/plain" responses
