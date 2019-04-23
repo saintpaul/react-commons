@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.5.2
+#### Fixed
+- [Request] Use text parser if `Content-type` response header contains 'text'.
+Some text responses (ex: `text/html`) were parsed as JSON, but they should be parsed as text.
+
 ## v4.5.1
 #### Fixed
 - [Request] Rollback missing argument from Promise rejection.

@@ -120,7 +120,7 @@ class Request {
                             bodyPromise;
 
                         // Use appropriate body parser depending of the response type header (fallback to JSON)
-                        if(contentType && contentType.indexOf("text/plain") >= 0) {
+                        if(contentType && contentType.indexOf("text") >= 0) {
                             bodyPromise = response.text();
                         } else {
                             bodyPromise = response.json();
