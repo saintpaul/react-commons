@@ -1,12 +1,13 @@
 import Configuration from "./Configuration";
 import RequestsExecutor from "./RequestsExecutor";
-import LodashUtils from "./LodashUtils";
+import { cloneDeep, chunk } from "lodash";
 
 
 class Request {
 
     // Alias for Configuration object
-    Config = Configuration;
+    // We do a clone to be able to have multiple instances of Request with different configurations
+    Config = cloneDeep(Configuration);
 
     /**
      * Build a new Request with options `forceOptions`
@@ -195,7 +196,7 @@ class Request {
 
     batch(requestSuppliers, batchSize = 10) {
 
-        const requestsBatches = LodashUtils.chunk(requestSuppliers, batchSize);
+        const requestsBatches = chunk(requestSuppliers, batchSize);
         let results = [];
 
         const executeBatch = (resolve, reject, batchIndex = 0) => {

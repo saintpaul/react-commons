@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.6.0
+#### Fixed
+- [Request] Clone `Request.Config` to be able to have multiple instances of Request with different configurations
+- [All] Replace "LodashUtils" by lodash library (cherry-picking done by `babel-plugin-lodash`) 
+
 ## v4.5.2
 #### Fixed
 - [Request] Use text parser if `Content-type` response header contains 'text'.
