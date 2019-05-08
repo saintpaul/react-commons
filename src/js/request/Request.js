@@ -162,11 +162,11 @@ class Request {
         return RequestsExecutor.execute(request, this.getOptions().spinnerDisabled, this.getOptions().timeoutDisabled);
     }
 
-    _defaultFailed(res, json, errorThrown) {
-        this.getOptions().defaultFail(res, json, errorThrown);
+    _defaultFailed(res) {
+        this.getOptions().defaultFail(res);
         // Build an error message
-        const error = json && json.error;
-        const args = (json && json.args) || {};
+        const error = res && res.json && res.json.error;
+        const args = (res && res.json && res.json.args) || {};
         const status = (res && res.response.status) || 404;
         this.getOptions().displayRestError({status, response: {error, args}});
         if(status === 401) {
