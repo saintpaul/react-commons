@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.6.1
+#### Fixed
+- [Request] Pass good response status to `displayRestError()` (status was always set to 404)
+
 ## v4.6.0
 #### Fixed
 - [Request] Clone `Request.Config` to be able to have multiple instances of Request with different configurations

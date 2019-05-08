@@ -162,12 +162,12 @@ class Request {
         return RequestsExecutor.execute(request, this.getOptions().spinnerDisabled, this.getOptions().timeoutDisabled);
     }
 
-    _defaultFailed(response, json, errorThrown) {
-        this.getOptions().defaultFail(response, json, errorThrown);
+    _defaultFailed(res, json, errorThrown) {
+        this.getOptions().defaultFail(res, json, errorThrown);
         // Build an error message
         const error = json && json.error;
         const args = (json && json.args) || {};
-        const status = (response && response.status) || 404;
+        const status = (res && res.response.status) || 404;
         this.getOptions().displayRestError({status, response: {error, args}});
         if(status === 401) {
             this.getOptions().requireLogin();
