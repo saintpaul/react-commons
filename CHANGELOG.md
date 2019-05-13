@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.6.3
+#### Fixed
+- [Request] Extract response status whatever the response type is
+
 ## v4.6.2
 #### Fixed
 - [Request] Pass good response error to `displayRestError()` (response rerror was undefined) 
