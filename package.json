@@ -1,6 +1,6 @@
 {
   "name": "sp-react-commons",
-  "version": "4.6.2",
+  "version": "4.6.3",
   "description": "Set of reusable components for reactjs applications",
   "main": "./lib/index.js",
   "scripts": {
