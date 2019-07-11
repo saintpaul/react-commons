@@ -168,7 +168,8 @@ class Request {
         const error = res && res.json && res.json.error;
         const args = (res && res.json && res.json.args) || {};
         const status = res && res.status || res && res.response && res.response.status || 404;
-        this.getOptions().displayRestError({status, response: {error, args}});
+        const originalResponse = res && res.json;
+        this.getOptions().displayRestError({status, response: {error, args}, originalResponse: originalResponse});
         if(status === 401) {
             this.getOptions().requireLogin();
         }
