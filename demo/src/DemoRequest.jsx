@@ -42,6 +42,11 @@ export default class DemoRequest extends React.Component {
 
     triggerTimeout() { Request.setTimeOut(3000).get(`${apiUrl}/timeout`); }
 
+    triggerBasicAuth() {
+        Request
+            .withBasicAuth("mylogin", "mypassword")
+            .post(`${apiUrl}/basicAuth`)
+    }
     onChangePokemonInput = (event) => this.setState({pokemonInput: event.target.value});
 
     onClickGetPokemon = () => {
@@ -137,6 +142,10 @@ export default class DemoRequest extends React.Component {
             </button>
             <button onClick={this.triggerTimeout}>
                 Timeout
+            </button>
+            <br/>
+            <button onClick={this.triggerBasicAuth}>
+                Basic Auth
             </button>
             <br/>
             <div>

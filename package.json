@@ -27,10 +27,13 @@
   },
   "homepage": "https://github.com/saintpaul/react-commons#readme",
   "dependencies": {
+    "js-base64": "2.5.1",
     "lodash": "4.17.11",
     "spin.js": "^2.3.2"
   },
   "devDependencies": {
+    "@hapi/basic": "5.1.1",
+    "@hapi/hapi": "18.4.0",
     "babel-cli": "6.x",
     "babel-eslint": "7.x",
     "babel-loader": "7.x",
@@ -49,7 +52,6 @@
     "eslint-plugin-react": "6.x",
     "extract-text-webpack-plugin": "2.x",
     "fsevents": "1.2.4",
-    "hapi": "16.4.x",
     "html-webpack-plugin": "2.x",
     "node-sass": "4.9.4",
     "postcss-loader": "2.x",

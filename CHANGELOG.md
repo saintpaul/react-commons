@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.7.0
+#### New
+- [Request] Add Basic auth support `Request.withBasicAuth(login, password)`
+
 ## v4.6.5
 #### New
 - [Request] Add the original response to the error object passed to `displayRestError()`

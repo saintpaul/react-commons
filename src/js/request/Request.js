@@ -1,6 +1,7 @@
 import Configuration from "./Configuration";
 import RequestsExecutor from "./RequestsExecutor";
 import { cloneDeep, chunk } from "lodash";
+import { Base64 } from 'js-base64';
 
 
 class Request {
@@ -22,6 +23,7 @@ class Request {
             spinnerDisabled: this.forceOptions.spinnerDisabled !== undefined ? this.forceOptions.spinnerDisabled : false,
             timeoutDisabled: this.forceOptions.timeoutDisabled !== undefined ? this.forceOptions.timeoutDisabled : false,
             withCredentials: this.forceOptions.withCredentials !== undefined ? this.forceOptions.withCredentials : this.Config.withCredentials,
+            basicAuth: this.forceOptions.basicAuth !== undefined ? this.forceOptions.basicAuth : undefined,
             timeoutDuration: this.forceOptions.timeoutDuration !== undefined ? this.forceOptions.timeoutDuration : undefined,
             getAuthToken : this.Config.getAuthToken,
             defaultFail: this.Config.defaultFail,
@@ -54,6 +56,13 @@ class Request {
         return new Request({ withCredentials: true });
     }
 
+    withBasicAuth(login, password) {
+        return new Request({ basicAuth: {
+            login: login,
+            password: password
+        }});
+    }
+
     /**
      * Set a timeout on the Promise. If timeout is reached, promise will be rejected.
      * Do not misunderstood with `enableTimeout()` which enable a timeout for spinner
@@ -82,6 +91,11 @@ class Request {
 
         if(this.getOptions().withCredentials || this.getOptions().getAuthToken) {
             options.credentials = 'include';
+        }
+
+        if(this.getOptions().basicAuth) {
+            const basicAuth = this.getOptions().basicAuth;
+            options.headers["Authorization"] = `Basic: ${Base64.encode(`${basicAuth.login}:${basicAuth.password}`)}`
         }
 
         const request = () => {
