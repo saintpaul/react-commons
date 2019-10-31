@@ -137,6 +137,8 @@ class Request {
                         // Use appropriate body parser depending of the response type header (fallback to JSON)
                         if(contentType && contentType.indexOf("text") >= 0) {
                             bodyPromise = response.text();
+                        } else if(contentType && contentType.indexOf("image") >= 0) {
+                            bodyPromise = response.blob();
                         } else {
                             bodyPromise = response.json();
                         }
@@ -203,6 +205,10 @@ class Request {
 
     delete(url, body) {
         return this._doJsonRequest(url, 'DELETE', body);
+    }
+
+    blob(url) {
+
     }
 
     all(...requestSuppliers) {
