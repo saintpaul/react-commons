@@ -76,7 +76,11 @@ export default class GlobalSpinner extends RefluxComponent {
             this.setState({display: true});
 
             if(this.isTimeoutEnabled() && !disableTimeout) {
-                this.requestTimeout = setTimeout(() => this.setState({isRequestTimeout: true}), this.props.timeoutDelay * 1000);
+                this.requestTimeout = setTimeout(() => {
+                    if(this.state.display) {
+                        this.setState({isRequestTimeout: true})
+                    }
+                }, this.props.timeoutDelay * 1000);
             }
         }
     };

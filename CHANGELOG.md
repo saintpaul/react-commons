@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.8.1
+#### Fixed
+- [Spinner] Fix undesirable timeouts
+
 ## v4.8.0
 #### New
 - [Request] Add blob() support for images response
