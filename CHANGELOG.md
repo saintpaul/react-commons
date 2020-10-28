@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v4.8.2
+#### Fixed
+- Update README.md
+
 ## v4.8.1
 #### Fixed
 - [Spinner] Fix undesirable timeouts
